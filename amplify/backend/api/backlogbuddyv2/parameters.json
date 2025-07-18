@@ -1,0 +1,11 @@
+{
+  "AppSyncApiName": "backlogbuddyv2",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authbacklogbuddyv2732ef4b9",
+      "Outputs.UserPoolId"
+    ]
+  }
+}

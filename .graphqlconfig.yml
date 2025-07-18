@@ -1,0 +1,12 @@
+projects:
+  backlogbuddyv2:
+    schemaPath: src/graphql/schema.json
+    includes:
+      - src/graphql/**/*.ts
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: typescript
+        generatedFileName: 'Y'
+        docsFilePath: src/graphql
