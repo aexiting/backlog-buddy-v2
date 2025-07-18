@@ -17,6 +17,12 @@
       },
       "api": {
         "backlogbuddyv2": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d25rws7ti8cdcf",
+          "type": "cicd"
+        }
       }
     }
   }
