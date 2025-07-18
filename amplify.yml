@@ -1,0 +1,17 @@
+version: 1
+
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci                    # installs deps at repo root
+    build:
+      commands:
+        - npm run build             # vite builds to dist/
+  artifacts:
+    baseDirectory: dist             # <- vite default
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*           # speeds subsequent builds
