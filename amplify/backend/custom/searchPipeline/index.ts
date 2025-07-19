@@ -7,6 +7,7 @@ import {
     Duration,
     RemovalPolicy,
     Stack,
+    StackProps,
 } from "aws-cdk-lib";
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { Runtime, StartingPosition } from 'aws-cdk-lib/aws-lambda';
@@ -14,12 +15,12 @@ import { Runtime, StartingPosition } from 'aws-cdk-lib/aws-lambda';
 import { Construct } from "constructs";
 import { DynamoEventSource } from "aws-cdk-lib/aws-lambda-event-sources";
 
-
 export class SearchPipelineStack extends Stack {
-    constructor(scope: Construct, id: string) {
-        super(scope, id);
+    constructor(scope: Construct, id: string, props?: StackProps) {
+        super(scope, id, props);
 
         const DDB_BATCH_SIZE = 25;
+        const INDEX_NAME = 'backlog';
         const backlogTable = ddb.Table.fromTableName(
             this,
             'BacklogTable',
@@ -69,14 +70,16 @@ export class SearchPipelineStack extends Stack {
                 entry: __dirname + '/indexer.ts',
                 environment: {
                     OPENSEARCH_ENDPOINT: domain.domainEndpoint,
-                    INDEX_NAME: 'backlog',
+                    INDEX_NAME: INDEX_NAME,
                 },
                 memorySize: 512,
                 timeout: Duration.seconds(30),
             }
         )
-        domain.grantIndexReadWrite(indexerFn);
+        domain.grantIndexReadWrite(INDEX_NAME, indexerFn);
 
         indexerFn.addEventSource(new events.SqsEventSource(backlogQueue, { batchSize: 10 }))
     }
 }
+
+export default SearchPipelineStack;

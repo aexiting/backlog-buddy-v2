@@ -1,12 +1,14 @@
 import { Client } from '@opensearch-project/opensearch';
 
-import { createAWSConnection, awsGetCredentials } from '@opensearch-project/opensearch/aws';
-
-const awsCreds = await awsGetCredentials();
-const AWSConnection = createAWSConnection(awsCreds);
+import { AwsSigv4Signer } from '@opensearch-project/opensearch/aws';
+import { defaultProvider } from '@aws-sdk/credential-provider-node';
 
 const osClient = new Client({
-    ...AWSConnection,
+    ...AwsSigv4Signer({
+        region:  process.env.AWS_REGION,
+        service: 'es',
+        getCredentials: defaultProvider(),
+    }),
     node: `https://${process.env.OPENSEARCH_ENDPOINT}`,
     maxRetries: 3,
     requestTimeout: 30_000,
