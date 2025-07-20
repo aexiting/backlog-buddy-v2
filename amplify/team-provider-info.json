@@ -23,6 +23,19 @@
           "appId": "d25rws7ti8cdcf",
           "type": "cicd"
         }
+      },
+      "function": {
+        "StreamToSqsFn": {
+          "deploymentBucketName": "amplify-backlogbuddyv2-dev-e6762-deployment",
+          "s3Key": "amplify-builds/StreamToSqsFn-35467732305933693948-build.zip"
+        },
+        "IndexerFn": {
+          "deploymentBucketName": "amplify-backlogbuddyv2-dev-e6762-deployment",
+          "s3Key": "amplify-builds/IndexerFn-736a68384b394172654d-build.zip"
+        }
+      },
+      "custom": {
+        "searchPipeline": {}
       }
     }
   }

@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@aws-amplify/cli-extensibility-helper": "^3.0.39",
+    "@aws-sdk/client-sqs": "^3.848.0",
     "aws-amplify": "^6.15.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"

@@ -6,7 +6,8 @@ type BacklogItem
 @auth(rules: [
   { allow: owner },
   { allow: groups, groups: ["Friends"], operations: [read] }
-]) {
+])
+ {
   id: ID!
   title: String!
   type: ItemType!

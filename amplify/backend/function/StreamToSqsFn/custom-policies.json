@@ -1,0 +1,30 @@
+[
+  {
+    "Action": [
+      "sqs:ReceiveMessage",
+      "sqs:DeleteMessage",
+      "sqs:GetQueueAttributes"
+    ],
+    "Resource": ["arn:aws:sqs:us-east-1:479699168417:BacklogQueue-*"]
+  },
+  {
+    "Action": [
+      "es:ESHttpGet",
+      "es:ESHttpPost",
+      "es:ESHttpPut",
+      "es:ESHttpDelete"
+    ],
+    "Resource": ["arn:aws:es:us-east-1:479699168417:domain/*"]
+  },
+  {
+    "Action": [
+      "dynamodb:GetRecords",
+      "dynamodb:GetShardIterator",
+      "dynamodb:DescribeStream",
+      "dynamodb:ListStreams"
+    ],
+    "Resource": [
+      "arn:aws:dynamodb:us-east-1:479699168417:table/BacklogItem-*-dev/stream/*"
+    ]
+  }
+]

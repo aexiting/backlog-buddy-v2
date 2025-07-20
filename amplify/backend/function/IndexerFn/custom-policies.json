@@ -1,0 +1,30 @@
+[
+  {
+    "Action": [
+      "sqs:ReceiveMessage",
+      "sqs:DeleteMessage",
+      "sqs:GetQueueAttributes"
+    ],
+    "Resource": ["arn:aws:sqs:us-east-1:479699168417:*"]
+  },
+  {
+    "Action": [
+      "es:ESHttpGet",
+      "es:ESHttpPost",
+      "es:ESHttpPut",
+      "es:ESHttpDelete"
+    ],
+    "Resource": ["arn:aws:sqs:us-east-1:479699168417:*"]
+  },
+  {
+    "Action": [
+      "dynamodb:GetRecords",
+      "dynamodb:GetShardIterator",
+      "dynamodb:DescribeStream",
+      "dynamodb:ListStreams"
+    ],
+    "Resource": [
+      "arn:aws:sqs:us-east-1:479699168417:*"
+    ]
+  }
+]

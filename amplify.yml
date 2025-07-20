@@ -6,6 +6,7 @@ frontend:
   phases:
     preBuild:
       commands:
+        - export AWS_LAMBDA_NODEJS_USE_NPM=1
         - npm ci
     build:
       commands:

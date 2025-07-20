@@ -1,73 +1,99 @@
-import * as cdk from 'aws-cdk-lib';
+import {
+  aws_dynamodb as ddb,
+  aws_lambda_event_sources as events,
+  aws_opensearchservice as os,
+  aws_sqs as sqs,
+  Duration,
+  RemovalPolicy,
+  Stack,
+} from "aws-cdk-lib";
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import { StartingPosition } from 'aws-cdk-lib/aws-lambda';
+import { Construct } from "constructs";
+import { DynamoEventSource } from "aws-cdk-lib/aws-lambda-event-sources";
+import * as cdk from "aws-cdk-lib";
 import * as AmplifyHelpers from '@aws-amplify/cli-extensibility-helper';
-import { AmplifyDependentResourcesAttributes } from '../../types/amplify-dependent-resources-ref';
-import { Construct } from 'constructs';
-//import * as iam from 'aws-cdk-lib/aws-iam';
-//import * as sns from 'aws-cdk-lib/aws-sns';
-//import * as subs from 'aws-cdk-lib/aws-sns-subscriptions';
-//import * as sqs from 'aws-cdk-lib/aws-sqs';
+import { AmplifyDependentResourcesAttributes } from "../../types/amplify-dependent-resources-ref";
+import { Role } from "aws-cdk-lib/aws-iam";
 
-export class cdkStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps, amplifyResourceProps?: AmplifyHelpers.AmplifyResourceProps) {
+
+export class cdkStack extends Stack {
+  constructor(scope: Construct, id: string, props: any, amplifyResourceProps?: AmplifyHelpers.AmplifyResourceProps) {
     super(scope, id, props);
     /* Do not remove - Amplify CLI automatically injects the current deployment environment in this input parameter */
     new cdk.CfnParameter(this, 'env', {
       type: 'String',
       description: 'Current Amplify CLI env name',
     });
-    /* AWS CDK code goes here - learn more: https://docs.aws.amazon.com/cdk/latest/guide/home.html */
-    
-    // Example 1: Set up an SQS queue with an SNS topic 
 
-    /*
-    const amplifyProjectInfo = AmplifyHelpers.getProjectInfo();
-    const sqsQueueResourceNamePrefix = `sqs-queue-${amplifyProjectInfo.projectName}`;
-    const queue = new sqs.Queue(this, 'sqs-queue', {
-      queueName: `${sqsQueueResourceNamePrefix}-${cdk.Fn.ref('env')}`
-    });
-    // 👇create sns topic
-    
-    const snsTopicResourceNamePrefix = `sns-topic-${amplifyProjectInfo.projectName}`;
-    const topic = new sns.Topic(this, 'sns-topic', {
-      topicName: `${snsTopicResourceNamePrefix}-${cdk.Fn.ref('env')}`
-    });
-    // 👇 subscribe queue to topic
-    topic.addSubscription(new subs.SqsSubscription(queue));
-    new cdk.CfnOutput(this, 'snsTopicArn', {
-      value: topic.topicArn,
-      description: 'The arn of the SNS topic',
-    });
-    */
-
-    // Example 2: Adding IAM role to the custom stack 
-    /*
-    const roleResourceNamePrefix = `CustomRole-${amplifyProjectInfo.projectName}`;
-    
-    const role = new iam.Role(this, 'CustomRole', {
-      assumedBy: new iam.AccountRootPrincipal(),
-      roleName: `${roleResourceNamePrefix}-${cdk.Fn.ref('env')}`
-    }); 
-    */
-
-    // Example 3: Adding policy to the IAM role
-    /*
-    role.addToPolicy(
-      new iam.PolicyStatement({
-        actions: ['*'],
-        resources: [topic.topicArn],
-      }),
+    const dependencies: AmplifyDependentResourcesAttributes = AmplifyHelpers.addResourceDependency(this,
+        amplifyResourceProps.category,
+        amplifyResourceProps.resourceName,
+        [
+          { category: "function", resourceName: "StreamToSqsFn" },
+          { category: "function", resourceName: "IndexerFn" }
+        ]
     );
-    */
+    const streamToSqsFnArn = cdk.Fn.ref(dependencies.function.StreamToSqsFn.Arn)
+    const indexerFnArn = cdk.Fn.ref(dependencies.function.IndexerFn.Arn)
+    const streamToSqsFnRoleArn = cdk.Fn.ref(dependencies.function.StreamToSqsFn.LambdaExecutionRoleArn)
+    const indexerFnRoleArn = cdk.Fn.ref(dependencies.function.IndexerFn.LambdaExecutionRoleArn)
 
-    // Access other Amplify Resources 
-    /*
-    const retVal:AmplifyDependentResourcesAttributes = AmplifyHelpers.addResourceDependency(this, 
-      amplifyResourceProps.category, 
-      amplifyResourceProps.resourceName, 
-      [
-        {category: <insert-amplify-category>, resourceName: <insert-amplify-resourcename>},
+
+    const DDB_BATCH_SIZE = 25;
+    const INDEX_NAME = 'backlog';
+
+    const backlogTable = ddb.Table.fromTableAttributes(this, 'BacklogTable', {
+      tableName: 'BacklogItem-dev',
+      tableStreamArn: 'arn:aws:dynamodb:us-east-1:479699168417:table/BacklogItem-qysl5ncp2jb6fdvi2vollqeete-dev/stream/2025-07-18T13:42:33.324',
+    });
+
+    const dlq = new sqs.Queue(this, 'IndexerDLQ', {
+      retentionPeriod: Duration.days(14)
+    });
+
+    const backlogQueue = new sqs.Queue(this, "BacklogQueue", {
+      deadLetterQueue: { queue: dlq, maxReceiveCount: 3 },
+      visibilityTimeout: Duration.seconds(60)
+    });
+
+    const domain = new os.Domain(this, 'BacklogSearchDomain', {
+      version: os.EngineVersion.OPENSEARCH_2_13,
+      capacity: { dataNodeInstanceType: 't3.small.search', dataNodes: 1 },
+      removalPolicy: RemovalPolicy.DESTROY,   // dev only
+    });
+
+
+
+    const streamFn = lambda.Function.fromFunctionAttributes(this, 'StreamToSqsFn', {
+      functionArn: streamToSqsFnArn,
+      role: Role.fromRoleArn(this, 'StreamToSqsFnRole', streamToSqsFnRoleArn),
+    });
+
+    const indexerFn = lambda.Function.fromFunctionAttributes(this, 'IndexerFn', {
+      functionArn: indexerFnArn,
+      role: Role.fromRoleArn(this, 'IndexerFnRole', indexerFnRoleArn),
+    });
+
+    backlogQueue.grantSendMessages(streamFn);
+    backlogQueue.grantConsumeMessages(indexerFn);
+    backlogQueue.grantSendMessages(indexerFn);
+
+    streamFn.addEventSource(new DynamoEventSource(backlogTable, {
+      startingPosition: StartingPosition.TRIM_HORIZON,
+      batchSize: DDB_BATCH_SIZE,
+      filters: [
+        lambda.FilterCriteria.filter({
+          eventName: lambda.FilterRule.isEqual('INSERT')
+        }),
+        lambda.FilterCriteria.filter({
+          eventName: lambda.FilterRule.isEqual('MODIFY')
+        }),
       ]
-    );
-    */
+    }));
+
+    domain.grantIndexReadWrite(INDEX_NAME, indexerFn);
+
+    indexerFn.addEventSource(new events.SqsEventSource(backlogQueue, { batchSize: 10 }));
   }
 }
