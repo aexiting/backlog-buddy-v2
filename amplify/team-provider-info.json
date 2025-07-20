@@ -31,7 +31,7 @@
         },
         "IndexerFn": {
           "deploymentBucketName": "amplify-backlogbuddyv2-dev-e6762-deployment",
-          "s3Key": "amplify-builds/IndexerFn-736a68384b394172654d-build.zip"
+          "s3Key": "amplify-builds/IndexerFn-7a364e4c545953446c68-build.zip"
         }
       },
       "custom": {

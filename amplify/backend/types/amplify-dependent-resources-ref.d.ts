@@ -16,6 +16,13 @@ export type AmplifyDependentResourcesAttributes = {
       "UserPoolName": "string"
     }
   },
+  "custom": {
+    "searchPipeline": {
+      "OpenSearchEndpointOutput": "string",
+      "OpenSearchIndexOutput": "string",
+      "SQSQueueUrlOutput": "string"
+    }
+  },
   "function": {
     "IndexerFn": {
       "Arn": "string",

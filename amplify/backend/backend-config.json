@@ -75,6 +75,14 @@
           ],
           "category": "function",
           "resourceName": "IndexerFn"
+        },
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "backlogbuddyv2"
         }
       ],
       "providerPlugin": "awscloudformation",

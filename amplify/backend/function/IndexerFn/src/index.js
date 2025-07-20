@@ -14,7 +14,7 @@ const handler = async (event) => {
         const payload = JSON.parse(rec.body);
         const id = payload.id.S;
         return [
-            { index: { _index: process.env.INDEX_NAME, _id: id } },
+            { index: { _index: process.env.OPENSEARCH_INDEX, _id: id } },
             {
                 title: payload.title.S,
                 type: payload.type.S,

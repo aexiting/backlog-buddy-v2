@@ -35,19 +35,20 @@ export class cdkStack extends Stack {
           { category: "api", resourceName: "backlogbuddyv2" }
         ]
     );
+
     const streamToSqsFnArn = cdk.Fn.ref(dependencies.function.StreamToSqsFn.Arn)
     const indexerFnArn = cdk.Fn.ref(dependencies.function.IndexerFn.Arn)
     const streamToSqsFnRoleArn = cdk.Fn.ref(dependencies.function.StreamToSqsFn.LambdaExecutionRoleArn)
     const indexerFnRoleArn = cdk.Fn.ref(dependencies.function.IndexerFn.LambdaExecutionRoleArn)
 
 
-    const apiResource = dependencies.api["backlogbuddyv2"];
-    const tableName = cdk.Fn.ref(apiResource.GraphQLAPIIdOutput) + "-BacklogItem-" + cdk.Fn.ref("env");
-
     const DDB_BATCH_SIZE = 25;
     const INDEX_NAME = 'backlog';
 
-    const backlogTable = ddb.Table.fromTableName(this, 'BacklogTable', tableName);
+    const backlogTable = ddb.Table.fromTableAttributes(this, 'BacklogTable', {
+      tableName: 'BacklogItem-dev',
+      tableStreamArn: 'arn:aws:dynamodb:us-east-1:479699168417:table/BacklogItem-qysl5ncp2jb6fdvi2vollqeete-dev/stream/2025-07-18T13:42:33.324',
+    });
 
     const dlq = new sqs.Queue(this, 'IndexerDLQ', {
       retentionPeriod: Duration.days(14)
@@ -64,8 +65,6 @@ export class cdkStack extends Stack {
       removalPolicy: RemovalPolicy.DESTROY,   // dev only
     });
 
-
-
     const streamFn = lambda.Function.fromFunctionAttributes(this, 'StreamToSqsFn', {
       functionArn: streamToSqsFnArn,
       role: Role.fromRoleArn(this, 'StreamToSqsFnRole', streamToSqsFnRoleArn),
@@ -76,8 +75,21 @@ export class cdkStack extends Stack {
       role: Role.fromRoleArn(this, 'IndexerFnRole', indexerFnRoleArn),
     });
 
+    new cdk.CfnOutput(this, 'SQSQueueUrlOutput', {
+      value: backlogQueue.queueUrl,
+    });
+
+    new cdk.CfnOutput(this, 'OpenSearchEndpointOutput', {
+      value: domain.domainEndpoint,
+    });
+
+    new cdk.CfnOutput(this, 'OpenSearchIndexOutput', {
+      value: INDEX_NAME,
+    });
+
     backlogQueue.grantSendMessages(streamFn);
     backlogQueue.grantConsumeMessages(indexerFn);
+    backlogQueue.grantSendMessages(indexerFn);
 
     streamFn.addEventSource(new DynamoEventSource(backlogTable, {
       startingPosition: StartingPosition.TRIM_HORIZON,
