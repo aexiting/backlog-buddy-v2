@@ -31,7 +31,8 @@ export class cdkStack extends Stack {
         amplifyResourceProps.resourceName,
         [
           { category: "function", resourceName: "StreamToSqsFn" },
-          { category: "function", resourceName: "IndexerFn" }
+          { category: "function", resourceName: "IndexerFn" },
+          { category: "api", resourceName: "backlogbuddyv2" }
         ]
     );
     const streamToSqsFnArn = cdk.Fn.ref(dependencies.function.StreamToSqsFn.Arn)
@@ -40,13 +41,13 @@ export class cdkStack extends Stack {
     const indexerFnRoleArn = cdk.Fn.ref(dependencies.function.IndexerFn.LambdaExecutionRoleArn)
 
 
+    const apiResource = dependencies.api["backlogbuddyv2"];
+    const tableName = cdk.Fn.ref(apiResource.GraphQLAPIIdOutput) + "-BacklogItem-" + cdk.Fn.ref("env");
+
     const DDB_BATCH_SIZE = 25;
     const INDEX_NAME = 'backlog';
 
-    const backlogTable = ddb.Table.fromTableAttributes(this, 'BacklogTable', {
-      tableName: 'BacklogItem-dev',
-      tableStreamArn: 'arn:aws:dynamodb:us-east-1:479699168417:table/BacklogItem-qysl5ncp2jb6fdvi2vollqeete-dev/stream/2025-07-18T13:42:33.324',
-    });
+    const backlogTable = ddb.Table.fromTableName(this, 'BacklogTable', tableName);
 
     const dlq = new sqs.Queue(this, 'IndexerDLQ', {
       retentionPeriod: Duration.days(14)
@@ -77,18 +78,14 @@ export class cdkStack extends Stack {
 
     backlogQueue.grantSendMessages(streamFn);
     backlogQueue.grantConsumeMessages(indexerFn);
-    backlogQueue.grantSendMessages(indexerFn);
 
     streamFn.addEventSource(new DynamoEventSource(backlogTable, {
       startingPosition: StartingPosition.TRIM_HORIZON,
       batchSize: DDB_BATCH_SIZE,
       filters: [
         lambda.FilterCriteria.filter({
-          eventName: lambda.FilterRule.isEqual('INSERT')
-        }),
-        lambda.FilterCriteria.filter({
-          eventName: lambda.FilterRule.isEqual('MODIFY')
-        }),
+          eventName: lambda.FilterRule.notEquals('REMOVE')
+        })
       ]
     }));
 
