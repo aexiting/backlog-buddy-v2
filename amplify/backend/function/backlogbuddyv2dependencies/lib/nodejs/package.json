@@ -1,0 +1,9 @@
+{
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@aws-sdk/credential-provider-node": "^3.848.0",
+    "@opensearch-project/opensearch": "^3.5.1"
+  }
+}

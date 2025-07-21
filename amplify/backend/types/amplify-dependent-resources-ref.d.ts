@@ -18,9 +18,9 @@ export type AmplifyDependentResourcesAttributes = {
   },
   "custom": {
     "searchPipeline": {
-      "OpenSearchEndpointOutput": "string",
-      "OpenSearchIndexOutput": "string",
-      "SQSQueueUrlOutput": "string"
+      "OPENSEARCHENDPOINT": "string",
+      "OPENSEARCHINDEX": "string",
+      "QUEUEURL": "string"
     }
   },
   "function": {
@@ -37,6 +37,9 @@ export type AmplifyDependentResourcesAttributes = {
       "LambdaExecutionRoleArn": "string",
       "Name": "string",
       "Region": "string"
+    },
+    "backlogbuddyv2dependencies": {
+      "Arn": "string"
     }
   }
 }

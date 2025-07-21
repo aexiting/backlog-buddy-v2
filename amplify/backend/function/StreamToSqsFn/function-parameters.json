@@ -1,4 +1,10 @@
 {
   "lambdaLayers": [],
-  "permissions": {}
+  "permissions": {},
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "queueurl",
+      "environmentVariableName": "QUEUEURL"
+    }
+  ]
 }

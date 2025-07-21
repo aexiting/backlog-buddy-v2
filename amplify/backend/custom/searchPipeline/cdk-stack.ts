@@ -75,15 +75,15 @@ export class cdkStack extends Stack {
       role: Role.fromRoleArn(this, 'IndexerFnRole', indexerFnRoleArn),
     });
 
-    new cdk.CfnOutput(this, 'SQSQueueUrlOutput', {
+    new cdk.CfnOutput(this, 'QUEUE_URL', {
       value: backlogQueue.queueUrl,
     });
 
-    new cdk.CfnOutput(this, 'OpenSearchEndpointOutput', {
+    new cdk.CfnOutput(this, 'OPENSEARCH_ENDPOINT', {
       value: domain.domainEndpoint,
     });
 
-    new cdk.CfnOutput(this, 'OpenSearchIndexOutput', {
+    new cdk.CfnOutput(this, 'OPENSEARCH_INDEX', {
       value: INDEX_NAME,
     });
 
@@ -101,7 +101,7 @@ export class cdkStack extends Stack {
       ]
     }));
 
-    domain.grantIndexReadWrite(INDEX_NAME, indexerFn);
+    domain.grantWrite(indexerFn);
 
     indexerFn.addEventSource(new events.SqsEventSource(backlogQueue, { batchSize: 10 }));
   }

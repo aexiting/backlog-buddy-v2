@@ -8,13 +8,13 @@ const osClient = new opensearch_1.Client(Object.assign(Object.assign({}, (0, aws
     region: process.env.AWS_REGION,
     service: 'es',
     getCredentials: (0, credential_provider_node_1.defaultProvider)(),
-})), { node: `https://${process.env.OPENSEARCH_ENDPOINT}`, maxRetries: 3, requestTimeout: 30000 }));
+})), { node: `https://${process.env.OPENSEARCHENDPOINT}`, maxRetries: 3, requestTimeout: 30000 }));
 const handler = async (event) => {
     const body = event.Records.flatMap((rec) => {
         const payload = JSON.parse(rec.body);
         const id = payload.id.S;
         return [
-            { index: { _index: process.env.OPENSEARCH_INDEX, _id: id } },
+            { index: { _index: process.env.OPENSEARCHINDEX, _id: id } },
             {
                 title: payload.title.S,
                 type: payload.type.S,

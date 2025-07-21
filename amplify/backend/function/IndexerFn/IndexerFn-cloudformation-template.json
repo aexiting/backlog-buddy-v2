@@ -15,6 +15,12 @@
     },
     "s3Key": {
       "Type": "String"
+    },
+    "opensearchendpoint": {
+      "Type": "String"
+    },
+    "opensearchindex": {
+      "Type": "String"
     }
   },
   "Conditions": {
@@ -69,6 +75,12 @@
             },
             "REGION": {
               "Ref": "AWS::Region"
+            },
+            "OPENSEARCHENDPOINT": {
+              "Ref": "opensearchendpoint"
+            },
+            "OPENSEARCHINDEX": {
+              "Ref": "opensearchindex"
             }
           }
         },

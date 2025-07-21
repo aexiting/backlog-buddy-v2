@@ -27,11 +27,18 @@
       "function": {
         "StreamToSqsFn": {
           "deploymentBucketName": "amplify-backlogbuddyv2-dev-e6762-deployment",
-          "s3Key": "amplify-builds/StreamToSqsFn-35467732305933693948-build.zip"
+          "s3Key": "amplify-builds/StreamToSqsFn-5a5049694c676c5a525a-build.zip",
+          "queueurl": "https://sqs.us-east-1.amazonaws.com/479699168417/amplify-backlogbuddyv2-dev-e6762-customsearchP-BacklogQueue6A53EE5E-ky4LuLRdCZZx"
         },
         "IndexerFn": {
           "deploymentBucketName": "amplify-backlogbuddyv2-dev-e6762-deployment",
-          "s3Key": "amplify-builds/IndexerFn-7a364e4c545953446c68-build.zip"
+          "s3Key": "amplify-builds/IndexerFn-4c526a426c4a59494c39-build.zip",
+          "opensearchendpoint": "search-backlogsearchdo-zqtwuow6r2sd-f5wmenpybkmlsc3yuuuz55kygm.us-east-1.es.amazonaws.com",
+          "opensearchindex": "backlog"
+        },
+        "backlogbuddyv2dependencies": {
+          "deploymentBucketName": "amplify-backlogbuddyv2-dev-e6762-deployment",
+          "s3Key": "amplify-builds/backlogbuddyv2dependencies-LambdaLayerVersion3b45cfc8-build.zip"
         }
       },
       "custom": {

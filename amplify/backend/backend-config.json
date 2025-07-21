@@ -92,6 +92,7 @@
   "function": {
     "IndexerFn": {
       "build": true,
+      "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
@@ -100,6 +101,11 @@
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "backlogbuddyv2dependencies": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "LambdaLayer"
     }
   },
   "hosting": {
@@ -111,6 +117,22 @@
   },
   "parameters": {
     "AMPLIFY_function_IndexerFn_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "IndexerFn"
+        }
+      ]
+    },
+    "AMPLIFY_function_IndexerFn_opensearchendpoint": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "IndexerFn"
+        }
+      ]
+    },
+    "AMPLIFY_function_IndexerFn_opensearchindex": {
       "usedBy": [
         {
           "category": "function",
@@ -134,11 +156,35 @@
         }
       ]
     },
+    "AMPLIFY_function_StreamToSqsFn_queueurl": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "StreamToSqsFn"
+        }
+      ]
+    },
     "AMPLIFY_function_StreamToSqsFn_s3Key": {
       "usedBy": [
         {
           "category": "function",
           "resourceName": "StreamToSqsFn"
+        }
+      ]
+    },
+    "AMPLIFY_function_backlogbuddyv2dependencies_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "backlogbuddyv2dependencies"
+        }
+      ]
+    },
+    "AMPLIFY_function_backlogbuddyv2dependencies_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "backlogbuddyv2dependencies"
         }
       ]
     },

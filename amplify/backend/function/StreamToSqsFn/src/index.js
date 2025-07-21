@@ -8,9 +8,11 @@ const handler = async (event) => {
         Id: `msg${i}`,
         MessageBody: JSON.stringify(r.dynamodb.NewImage),
     }));
+
+    console.log(process.env.QUEUEURL)
     for (let i = 0; i < entries.length; i += 10) {
         await sqs.send(new client_sqs_1.SendMessageBatchCommand({
-            QueueUrl: process.env.QUEUE_URL,
+            QueueUrl: process.env.QUEUEURL,
             Entries: entries.slice(i, i + 10),
         }));
     }
