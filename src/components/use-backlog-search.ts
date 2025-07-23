@@ -1,8 +1,7 @@
 import { type BacklogItem, ItemStatus, ItemType } from "../../API.ts";
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { generateClient } from "aws-amplify/api";
-import { updateBacklogItem } from "../graphql/mutations.ts";
-import { getBacklogItems, searchBacklogItems } from "../graphql/queries.ts";
+import { searchBacklogItems } from "../graphql/queries.ts";
 
 
 export type UseBacklogSearch = {
@@ -26,7 +25,22 @@ export type BacklogSearchState = {
     status?: ItemStatus;
 }
 
-const MAX_RESULTS = 10;
+
+const useDebounce  = <T>(value: T, delay: number) => {
+    const [debouncedValue, setDebouncedValue] = useState<T>(value);
+
+    useEffect(() => {
+        const handler = setTimeout(()=> {
+            setDebouncedValue(value)
+        }, delay)
+
+        return (() => {
+            clearTimeout(handler)
+        })
+    }, [value, delay]);
+
+    return debouncedValue
+}
 
 const useBacklogSearch = ({ onBacklogFetch }: UseBacklogSearch): [BacklogSearchState, BacklogSearchActions] => {
 
@@ -41,14 +55,16 @@ const useBacklogSearch = ({ onBacklogFetch }: UseBacklogSearch): [BacklogSearchS
     }
 
     const [state, setState] = useState(initialState);
+    const debouncedState = useDebounce(state, 500)
 
-    const fetchBacklog = async () => {
+    const fetchBacklog = useCallback ( async () => {
         setState(prevState => ({...prevState, isLoading: true, isError: false}))
+        const {type, rating, title, status} = debouncedState
         const input = {
-            ...(state.type && { type: state.type }),
-            ...(state.status && { status: state.status }),
-            ...(state.rating && { rating: state.rating }),
-            title: state.title.trim() === "" ? "*" : state.title // if there's a blank value we can do a search for everything using wildcard
+            ...(type && { type: type }),
+            ...(status && { status }),
+            ...(rating && { rating }),
+            title: title.trim() === "" ? "*" : title // if there's a blank value we can do a search for everything using wildcard
         }
 
         try {
@@ -56,7 +72,7 @@ const useBacklogSearch = ({ onBacklogFetch }: UseBacklogSearch): [BacklogSearchS
                 query: searchBacklogItems,
                 variables: {
                     ...input,
-                    from: from.current,
+                    from: from.current, // later on we should allow for more results but keep it simple for now
                     owner: "adam",
                 },
                 authMode: "userPool"
@@ -69,7 +85,6 @@ const useBacklogSearch = ({ onBacklogFetch }: UseBacklogSearch): [BacklogSearchS
             }
 
             onBacklogFetch(searchResults.filter(result => result != undefined))
-            from.current += MAX_RESULTS // get the next 10 results later on
         }
         catch(err) {
             setState(prevState => ({...prevState, isError: true}))
@@ -79,8 +94,13 @@ const useBacklogSearch = ({ onBacklogFetch }: UseBacklogSearch): [BacklogSearchS
             setState(prevState => ({...prevState, isLoading: false}))
         }
 
-    }
+    }, [debouncedState, client, onBacklogFetch])
 
+    useEffect(() => {
+        fetchBacklog()
+    }, [debouncedState, fetchBacklog,  client]);
+    
+    
     return [state, {
         setTitle: (text: string) => setState(prevState => ({ ...prevState, title: text })),
         setRating: (rating: number) => setState(prevState => ({ ...prevState, rating })),
