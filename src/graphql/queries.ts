@@ -8,6 +8,38 @@ type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryOutput: OutputType;
 };
 
+export const searchBacklogItems = /* GraphQL */ `query SearchBacklogItems(
+  $title: String!
+  $type: ItemType
+  $rating: Int
+  $owner: String
+  $status: ItemStatus
+  $from: Int!
+) {
+  searchBacklogItems(
+    title: $title
+    type: $type
+    rating: $rating
+    owner: $owner
+    status: $status
+    from: $from
+  ) {
+    id
+    title
+    type
+    rating
+    createdAt
+    owner
+    status
+    image
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.SearchBacklogItemsQueryVariables,
+  APITypes.SearchBacklogItemsQuery
+>;
 export const getBacklogItem = /* GraphQL */ `query GetBacklogItem($id: ID!) {
   getBacklogItem(id: $id) {
     id

@@ -85,7 +85,7 @@ export const BacklogInputForm = ({ state, actions }: BacklogInputFormProps) => {
                     >
                         <option value={ItemStatus.COMPLETED}>Completed</option>
                         <option value={ItemStatus.DROPPED}>Dropped</option>
-                        <option value={ItemStatus.PENDING}>Watching</option>
+                        <option value={ItemStatus.STARTED}>Watching</option>
                         <option value={ItemStatus.NOT_STARTED}>Not Started</option>
 
                     </SelectField>}

@@ -18,5 +18,9 @@ type BacklogItem
   image: String!
 }
 
+type Query {
+  searchBacklogItems(title: String!, type: ItemType, rating: Int, owner: String, status: ItemStatus, from:Int!): [BacklogItem] @function(name: "backlogSearchFn-${env}")
+}
+
 enum ItemType { GAME MANGA ANIME }
 enum ItemStatus { COMPLETED NOT_STARTED STARTED DROPPED }

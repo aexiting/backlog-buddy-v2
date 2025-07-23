@@ -285,6 +285,30 @@ export type DeleteBacklogItemMutation = {
   } | null,
 };
 
+export type SearchBacklogItemsQueryVariables = {
+  title: string,
+  type?: ItemType | null,
+  rating?: number | null,
+  owner?: string | null,
+  status?: ItemStatus | null,
+  from: number,
+};
+
+export type SearchBacklogItemsQuery = {
+  searchBacklogItems?:  Array< {
+    __typename: "BacklogItem",
+    id: string,
+    title: string,
+    type: ItemType,
+    rating: number,
+    createdAt: string,
+    owner: string,
+    status: ItemStatus,
+    image: string,
+    updatedAt: string,
+  } | null > | null,
+};
+
 export type GetBacklogItemQueryVariables = {
   id: string,
 };

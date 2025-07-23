@@ -102,6 +102,11 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "backlogSearchFn": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "backlogbuddyv2dependencies": {
       "build": true,
       "providerPlugin": "awscloudformation",
@@ -169,6 +174,38 @@
         {
           "category": "function",
           "resourceName": "StreamToSqsFn"
+        }
+      ]
+    },
+    "AMPLIFY_function_backlogSearchFn_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "backlogSearchFn"
+        }
+      ]
+    },
+    "AMPLIFY_function_backlogSearchFn_opensearchendpoint": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "backlogSearchFn"
+        }
+      ]
+    },
+    "AMPLIFY_function_backlogSearchFn_opensearchindex": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "backlogSearchFn"
+        }
+      ]
+    },
+    "AMPLIFY_function_backlogSearchFn_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "backlogSearchFn"
         }
       ]
     },
