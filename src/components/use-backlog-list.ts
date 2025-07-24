@@ -19,6 +19,7 @@ export type BacklogListState = {
 export type BacklogListActions = {
     loadMoreBacklog: () => void;
     setActiveItem: (item?: BacklogItem) => void;
+    setBacklogList: (items: BacklogItem[]) => void;
 }
 
 const initialState: BacklogListState = {
@@ -53,7 +54,7 @@ export const useBacklogList = (): [BacklogListState, BacklogListActions] => {
             >({
                 query: listBacklogItems,
                 variables: { limit: PAGE_LIMIT, nextToken: token },
-                authMode: "userPool"
+                authMode: "userPool",
             })
             const backlogData = data.listBacklogItems
 
@@ -75,7 +76,7 @@ export const useBacklogList = (): [BacklogListState, BacklogListActions] => {
         } finally {
             setState(prevState => ({ ...prevState, isLoading: false }))
         }
-    }, [])
+    }, [client])
 
     useEffect(() => {
         if (state.items.length > 0) return
@@ -122,6 +123,7 @@ export const useBacklogList = (): [BacklogListState, BacklogListActions] => {
 
     return [state, {
         loadMoreBacklog,
-        setActiveItem: (item?: BacklogItem) => setState(prevState => ({ ...prevState, activeItem: item }))
+        setActiveItem: (item?: BacklogItem) => setState(prevState => ({ ...prevState, activeItem: item })),
+        setBacklogList: (items: BacklogItem[]) => setState(prevState => ({ ...prevState, items }))
     }]
 }

@@ -42,7 +42,7 @@ const useDebounce  = <T>(value: T, delay: number) => {
     return debouncedValue
 }
 
-const useBacklogSearch = ({ onBacklogFetch }: UseBacklogSearch): [BacklogSearchState, BacklogSearchActions] => {
+export const useBacklogSearch = ({ onBacklogFetch }: UseBacklogSearch): [BacklogSearchState, BacklogSearchActions] => {
 
     const clientRef = useRef(generateClient());
     const from = useRef(0)
@@ -98,8 +98,8 @@ const useBacklogSearch = ({ onBacklogFetch }: UseBacklogSearch): [BacklogSearchS
 
     useEffect(() => {
         fetchBacklog()
-    }, [debouncedState, fetchBacklog,  client]);
-    
+    }, [debouncedState,  client]);
+
     
     return [state, {
         setTitle: (text: string) => setState(prevState => ({ ...prevState, title: text })),

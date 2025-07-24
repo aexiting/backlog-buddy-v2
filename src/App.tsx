@@ -8,6 +8,8 @@ import { useBacklogInput } from "./components/use-backlog-input.ts";
 import { useBacklogList } from "./components/use-backlog-list.ts";
 import { BacklogList } from "./components/BacklogList.tsx";
 import { BacklogInputForm } from "./components/BacklogInputForm.tsx";
+import { useBacklogSearch } from "./components/use-backlog-search.ts";
+import { BacklogSearch } from "./components/BacklogSearch.tsx";
 
 type AppProps = {
     signOut?: UseAuthenticator["signOut"];
@@ -20,6 +22,9 @@ const App = withAuthenticator(({ signOut, user }: AppProps) => {
     const [listState, listActions] = useBacklogList();
 
     const [inputState, inputActions] = useBacklogInput({addToBacklogList: listActions.loadMoreBacklog, username: user.username, activeItem: listState.activeItem, clearActiveItem: () => listActions.setActiveItem(undefined)});
+
+ //   const [searchState, searchActions] = useBacklogSearch({ onBacklogFetch: listActions.setBacklogList });
+
     return (
         <div>
             <BacklogInputForm state={inputState} actions={inputActions}/>

@@ -1,5 +1,5 @@
 import type { BacklogSearchActions, BacklogSearchState } from "./use-backlog-search.ts";
-import { Alert, Card, Loader, SelectField, TextField, View } from "@aws-amplify/ui-react";
+import { Alert, Card, Flex, Loader, SelectField, TextField, View } from "@aws-amplify/ui-react";
 import { ItemStatus, ItemType } from "../../API.ts";
 
 type BacklogSearchProps = {
@@ -7,13 +7,14 @@ type BacklogSearchProps = {
     actions: BacklogSearchActions
 }
 
-const BacklogSearch = ({ state, actions }: BacklogSearchProps) => {
+export const BacklogSearch = ({ state, actions }: BacklogSearchProps) => {
     const { isLoading, isError, title, type, rating, status } = state;
     const { setTitle, setType, setRating, setStatus } = actions;
 
 
     return (<Card>
         <View as="form">
+            <Flex direction="row">
             <TextField
                 label="Title"
                 value={title}
@@ -57,6 +58,7 @@ const BacklogSearch = ({ state, actions }: BacklogSearchProps) => {
                     <p>There was an error trying to search backlog.</p>
                 </Alert>
             )}
+            </Flex>
         </View>
     </Card>)
 }

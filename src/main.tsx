@@ -4,7 +4,7 @@ import App from './App.tsx'
 import awsconfig from './amplifyconfiguration.json';
 import { Amplify } from "aws-amplify";
 import { ThemeProvider } from "@aws-amplify/ui-react";
-
+console.log("test")
 // Uncomment this out if you want to test using local graphql instance
 // Amplify.configure({
 //     ...awsconfig,
