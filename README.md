@@ -1,33 +1,87 @@
 
 Personal project to learn about the AWS ecosystem with some basic system design/ dev ops.
 
-## TO-DO List
-1. Clean up frontend
-   1. Add button and a new modal for adding new backlog items.
-      1. Modal should have all the inputs display be more stable.
-2. Remove direct fetches to database for backlog items and use search instead.
-3. Update OpenSearch backlogitem index with ids.
-3. Fix backlog items
-   1. Titles floating towards the thumbnails
-   2. Size of list changing the size of the page.
-   3. Load more button should show at bottom.
-   4. Trigger search again when changes are done to database.
-   5. Fix the color 
-4. Fix the log-in and username display
-   1. hard to see the text should move it into its own modal.
-   2. Add it to the upper right hand corner in its own div.
-5. Switch rating slider to use a set of stars.
-6. Add new anime database that has
-   * Id
-   * Image
-   * Name
-   * Avg star rating
-   * Number of users with each status (started, finished, dropped, etc.)
-7. Populate dropdown with aforementioned anime database when adding a new backlog item.
-   * dropdown is powered by another OpenSearch index based on anime rather than backlogitems
-8. Write playwright and unit tests for the functionality. And run them using GitHub Actions.
-   * Will break down the test scenarios here when I have time.
-9. Security clean up for the api keys.
-10. Remove user hardcodes so we can have multiple users.
-11. Seed more Anime and backlog items 
-12. Add user stats 
+# To-Do List
+
+## 1. UI Improvements
+
+* Add a button and modal to create new backlog items.
+* Fix layout bugs:
+    * Title overlapping images
+    * Page resizing weirdly based on list size
+    * Load More button placement
+    * Improve colors: Can't see login and username very well. Clashing of grey /white.
+* Switch the rating slider to stars
+* Move login info (username) to top-right corner and make it easier to read
+
+## 2. Backend & Search
+
+* Stop reading directly from the database — use OpenSearch for all item searches
+* Add more fields to the backlog index (like user ID and anime ID) rather than just the title
+* Create a new OpenSearch index for anime info with fields:
+    * ID
+    * Image
+    * Name
+    * Average rating
+    * Status counts ()
+* Use the anime index to power a dropdown when adding backlog items
+* Re-run search when items are added, edited, or deleted
+
+## 3. Auth & Security
+
+* Remove hardcoded user info and link data to the logged-in user
+* Display username visibly in the header
+* Store API keys safely in Amplify environment variables
+* Update OpenSearch to use encryption
+* Can for XSS and sql injection
+* Update amplify graphql auth rules
+* Create a userId (uuid) rather than using user id in OpenSearch docs.
+
+## 1. UI Improvements
+
+* Add a button and modal to create new backlog items.
+* Fix layout bugs:
+
+    * Title overlapping images
+    * Page resizing weirdly based on list size
+    * Load More button placement
+    * Improve colors
+* Switch the rating slider to stars
+* Move login info (username) to top-right corner and make it easier to read
+
+## 2. Backend & Search
+
+* Stop reading directly from the database — use OpenSearch for all item searches
+* Add more fields to the backlog index (like user ID and anime ID)
+* Create a new OpenSearch index for anime info with fields:
+
+    * ID
+    * Image
+    * Name
+    * Average rating
+    * Status counts
+* Use the anime index to power a dropdown when adding backlog items
+* Re-run search when items are added, edited, or deleted
+
+## 3. Auth & Security
+
+* Remove hardcoded user info and link data to the logged-in user
+* Display username visibly in the header
+* Store API keys safely in Amplify environment variables
+
+## 4. Testing & CI
+
+* Write Playwright tests for adding, editing, deleting, and searching items
+* Write unit tests for important logic like OpenSearch queries
+* Use GitHub Actions to run tests on every pull request
+* Use Amplify Preview to test new branches before merging
+* Add some security related tests like trying to access another user's backlog
+
+## 5. Seed Data & Stats
+
+* Add real anime data from Jikan or AniList and store it in DynamoDB
+* Create some fake users and backlog entries for testing
+* Show user stats like average rating and completion percentage
+
+## Current timeline?
+* TBD
