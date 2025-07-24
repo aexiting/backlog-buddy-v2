@@ -9,7 +9,7 @@ type GeneratedQuery<InputType, OutputType> = string & {
 };
 
 export const searchBacklogItems = /* GraphQL */ `query SearchBacklogItems(
-  $title: String!
+  $title: String
   $type: ItemType
   $rating: Int
   $owner: String

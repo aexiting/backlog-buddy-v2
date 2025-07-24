@@ -286,7 +286,7 @@ export type DeleteBacklogItemMutation = {
 };
 
 export type SearchBacklogItemsQueryVariables = {
-  title: string,
+  title?: string | null,
   type?: ItemType | null,
   rating?: number | null,
   owner?: string | null,

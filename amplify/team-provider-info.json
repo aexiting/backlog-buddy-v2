@@ -42,7 +42,7 @@
         },
         "backlogSearchFn": {
           "deploymentBucketName": "amplify-backlogbuddyv2-dev-e6762-deployment",
-          "s3Key": "amplify-builds/backlogSearchFn-494c72554337766c6f46-build.zip",
+          "s3Key": "amplify-builds/backlogSearchFn-435748652f504d416f33-build.zip",
           "opensearchindex": "backlog",
           "opensearchendpoint": "search-backlogsearchdo-zqtwuow6r2sd-f5wmenpybkmlsc3yuuuz55kygm.us-east-1.es.amazonaws.com"
         }

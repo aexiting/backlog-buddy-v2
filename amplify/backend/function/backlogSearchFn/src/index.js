@@ -15,7 +15,7 @@ const handler = async (event) => {
     const { title, type, rating, owner, status, from } = event.arguments;
     const mustClauses = [];
     const filterClauses = [];
-    mustClauses.push( title.trim() !== 0 ? {
+    mustClauses.push(  title.trim() !== "" ? {
         match: {
             title: {
                 query: title,
