@@ -15,7 +15,7 @@ const handler = async (event) => {
     const { title, type, rating, owner, status, from } = event.arguments;
     const mustClauses = [];
     const filterClauses = [];
-    mustClauses.push({
+    mustClauses.push( title.trim() !== 0 ? {
         match: {
             title: {
                 query: title,
@@ -23,6 +23,8 @@ const handler = async (event) => {
                 fuzziness: "AUTO"
             }
         }
+    } : {
+        match_all: {}
     });
     if (type) {
         filterClauses.push({ term: { "type.keyword": type } });

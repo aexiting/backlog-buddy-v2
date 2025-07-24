@@ -19,7 +19,7 @@ type BacklogItem
 }
 
 type Query {
-  searchBacklogItems(title: String!, type: ItemType, rating: Int, owner: String, status: ItemStatus, from:Int!): [BacklogItem] @function(name: "backlogSearchFn-${env}")
+  searchBacklogItems(title: String, type: ItemType, rating: Int, owner: String, status: ItemStatus, from:Int!): [BacklogItem] @function(name: "backlogSearchFn-${env}")
 }
 
 enum ItemType { GAME MANGA ANIME }

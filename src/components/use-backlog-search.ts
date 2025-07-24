@@ -60,11 +60,12 @@ export const useBacklogSearch = ({ onBacklogFetch }: UseBacklogSearch): [Backlog
     const fetchBacklog = useCallback ( async () => {
         setState(prevState => ({...prevState, isLoading: true, isError: false}))
         const {type, rating, title, status} = debouncedState
-        const input = {
+        let input = {
             ...(type && { type: type }),
             ...(status && { status }),
             ...(rating && { rating }),
-            title: title.trim() === "" ? "*" : title // if there's a blank value we can do a search for everything using wildcard
+            ...(title && { title }),
+            // if there's a blank value we can do a search for everything using wildcard
         }
 
         try {
