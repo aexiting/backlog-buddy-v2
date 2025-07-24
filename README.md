@@ -1,69 +1,33 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Personal project to learn about the AWS ecosystem with some basic system design/ dev ops.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## TO-DO List
+1. Clean up frontend
+   1. Add button and a new modal for adding new backlog items.
+      1. Modal should have all the inputs display be more stable.
+2. Remove direct fetches to database for backlog items and use search instead.
+3. Update OpenSearch backlogitem index with ids.
+3. Fix backlog items
+   1. Titles floating towards the thumbnails
+   2. Size of list changing the size of the page.
+   3. Load more button should show at bottom.
+   4. Trigger search again when changes are done to database.
+   5. Fix the color 
+4. Fix the log-in and username display
+   1. hard to see the text should move it into its own modal.
+   2. Add it to the upper right hand corner in its own div.
+5. Switch rating slider to use a set of stars.
+6. Add new anime database that has
+   * Id
+   * Image
+   * Name
+   * Avg star rating
+   * Number of users with each status (started, finished, dropped, etc.)
+7. Populate dropdown with aforementioned anime database when adding a new backlog item.
+   * dropdown is powered by another OpenSearch index based on anime rather than backlogitems
+8. Write playwright and unit tests for the functionality. And run them using GitHub Actions.
+   * Will break down the test scenarios here when I have time.
+9. Security clean up for the api keys.
+10. Remove user hardcodes so we can have multiple users.
+11. Seed more Anime and backlog items 
+12. Add user stats 
