@@ -3,6 +3,7 @@ Personal project to learn about the AWS ecosystem with some basic system design/
 
 # To-Do List
 
+
 ## 1. UI Improvements
 
 * Add a button and modal to create new backlog items.
@@ -36,38 +37,6 @@ Personal project to learn about the AWS ecosystem with some basic system design/
 * Can for XSS and sql injection
 * Update amplify graphql auth rules
 * Create a userId (uuid) rather than using user id in OpenSearch docs.
-
-## 1. UI Improvements
-
-* Add a button and modal to create new backlog items.
-* Fix layout bugs:
-
-    * Title overlapping images
-    * Page resizing weirdly based on list size
-    * Load More button placement
-    * Improve colors
-* Switch the rating slider to stars
-* Move login info (username) to top-right corner and make it easier to read
-
-## 2. Backend & Search
-
-* Stop reading directly from the database — use OpenSearch for all item searches
-* Add more fields to the backlog index (like user ID and anime ID)
-* Create a new OpenSearch index for anime info with fields:
-
-    * ID
-    * Image
-    * Name
-    * Average rating
-    * Status counts
-* Use the anime index to power a dropdown when adding backlog items
-* Re-run search when items are added, edited, or deleted
-
-## 3. Auth & Security
-
-* Remove hardcoded user info and link data to the logged-in user
-* Display username visibly in the header
-* Store API keys safely in Amplify environment variables
 
 ## 4. Testing & CI
 
