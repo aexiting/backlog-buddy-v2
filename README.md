@@ -48,7 +48,7 @@ Personal project to learn about the AWS ecosystem with some basic system design/
 
 ## 5. Seed Data & Stats
 
-* Add real anime data from Jikan or AniList and store it in DynamoDB
+* Add real anime data from AniList and store it in DynamoDB
 * Create some fake users and backlog entries for testing
 * Show user stats like average rating and completion percentage
 
