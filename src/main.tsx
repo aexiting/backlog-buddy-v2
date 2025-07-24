@@ -4,7 +4,6 @@ import App from './App.tsx'
 import awsconfig from './amplifyconfiguration.json';
 import { Amplify } from "aws-amplify";
 import { ThemeProvider } from "@aws-amplify/ui-react";
-console.log("test")
 // Uncomment this out if you want to test using local graphql instance
 // Amplify.configure({
 //     ...awsconfig,
@@ -12,6 +11,7 @@ console.log("test")
 //     aws_appsync_authenticationType: 'API_KEY',
 //     aws_appsync_apiKey: awsconfig.aws_appsync_apiKey,  // same key shown by `amplify mock api`
 // });
+
 Amplify.configure(awsconfig)
 createRoot(document.getElementById('root')!).render(
     <ThemeProvider>

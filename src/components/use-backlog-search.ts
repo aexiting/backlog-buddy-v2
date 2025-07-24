@@ -68,6 +68,7 @@ export const useBacklogSearch = ({ onBacklogFetch }: UseBacklogSearch): [Backlog
         }
 
         try {
+            console.log(input)
             const { data } = await client.graphql({
                 query: searchBacklogItems,
                 variables: {
@@ -78,7 +79,7 @@ export const useBacklogSearch = ({ onBacklogFetch }: UseBacklogSearch): [Backlog
                 authMode: "userPool"
             })
             const searchResults = data.searchBacklogItems
-
+            console.log(searchResults)
             if (!searchResults) {
                 console.log("No backlog data available.")
                 return
@@ -94,11 +95,11 @@ export const useBacklogSearch = ({ onBacklogFetch }: UseBacklogSearch): [Backlog
             setState(prevState => ({...prevState, isLoading: false}))
         }
 
-    }, [debouncedState, client, onBacklogFetch])
+    }, [debouncedState.title])
 
     useEffect(() => {
         fetchBacklog()
-    }, [debouncedState,  client]);
+    }, [debouncedState.title, fetchBacklog,  client]);
 
     
     return [state, {

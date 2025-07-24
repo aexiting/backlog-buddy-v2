@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const crypto = require('crypto');
 exports.handler = void 0;
 const opensearch_1 = require("@opensearch-project/opensearch");
 const aws_1 = require("@opensearch-project/opensearch/aws");
@@ -19,7 +20,7 @@ const handler = async (event) => {
             title: {
                 query: title,
                 operator: "and",
-                fuzzy: "AUTO"
+                fuzziness: "AUTO"
             }
         }
     });
@@ -47,7 +48,11 @@ const handler = async (event) => {
             body: query
         });
         const hits = response.body.hits;
-        const results = hits.hits.map(hit => hit._source);
+        // I made a mistke with seeding the documents... I should have added a UUID for each backlog item when I started
+        // seeding. my bad g.
+        // TO-DO: We should have source of truth so I should update indexer to include the id.
+        const results = hits.hits.map(hit => hit._source).map(hit => ({...hit, id: crypto.randomUUID()}));
+        console.log("Getting results");
         console.log(`Found ${results.length} items.`);
         return results;
     }

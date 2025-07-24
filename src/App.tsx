@@ -23,11 +23,12 @@ const App = withAuthenticator(({ signOut, user }: AppProps) => {
 
     const [inputState, inputActions] = useBacklogInput({addToBacklogList: listActions.loadMoreBacklog, username: user.username, activeItem: listState.activeItem, clearActiveItem: () => listActions.setActiveItem(undefined)});
 
- //   const [searchState, searchActions] = useBacklogSearch({ onBacklogFetch: listActions.setBacklogList });
+    const [searchState, searchActions] = useBacklogSearch({ onBacklogFetch: listActions.setBacklogList });
 
     return (
         <div>
             <BacklogInputForm state={inputState} actions={inputActions}/>
+            <BacklogSearch state={searchState} actions={searchActions}/>
             <Heading level={1}>Hello {user.username}</Heading>
             <Button onClick={signOut}>Sign out</Button>
             <h2>{user.username}'s Backlog Buddy</h2>
