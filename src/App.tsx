@@ -33,10 +33,11 @@ const App = withAuthenticator(({ signOut, user }: AppProps) => {
         <div>
             <Masthead username={user.username} signOut={signOut}/>
             {isInputModalOpen && <BacklogInputForm state={inputState} actions={inputActions}/>}
-            <Button onClick={() => setIsInputModalOpen(!isInputModalOpen)}> Add to List </Button>
             <BacklogSearch state={searchState} actions={searchActions}/>
+            <Button onClick={() => setIsInputModalOpen(!isInputModalOpen)}> Add to List </Button>
             <BacklogList state={listState} actions={listActions}/>
-        </div>)
+        </div>
+    )
 });
 
 export default App;

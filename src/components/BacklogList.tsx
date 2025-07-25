@@ -23,18 +23,6 @@ export const BacklogList = ({ state, actions }: BacklogListProps) => {
 
     return (
         <Flex direction="column">
-            {hasMore && (
-                <Flex justifyContent="center">
-                    <Button
-                        variation="primary"
-                        onClick={() => loadMoreBacklog()}
-                        isLoading={isLoading}
-                    >
-                        {isLoading ? <Loader size="small" /> : 'Load more'}
-                    </Button>
-                </Flex>
-            )}
-
             <Flex wrap="wrap" justifyContent="center" gap="xlarge">
                 {items.map(item => (
                     <motion.div
@@ -46,6 +34,17 @@ export const BacklogList = ({ state, actions }: BacklogListProps) => {
                     </motion.div>
                 ))}
             </Flex>
+            {hasMore && (
+                <Flex justifyContent="center">
+                    <Button
+                        variation="primary"
+                        onClick={() => loadMoreBacklog()}
+                        isLoading={isLoading}
+                    >
+                        {isLoading ? <Loader size="small" /> : 'Load more'}
+                    </Button>
+                </Flex>
+            )}
         </Flex>
     )
 }

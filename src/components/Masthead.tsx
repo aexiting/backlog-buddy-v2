@@ -19,6 +19,7 @@ export const Masthead = ({ username, signOut }: MastheadProps) => {
 
     return (
         <View
+            as="header"
             position="relative"
             width="100%"
             padding="1rem 2rem"
