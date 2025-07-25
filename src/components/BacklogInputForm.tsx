@@ -90,7 +90,7 @@ export const BacklogInputForm = ({ state, actions }: BacklogInputFormProps) => {
 
                     </SelectField>}
 
-                    {/* Rating 1-10 (optional) */}
+
                     <SliderField
                         label={
                             <Text as="span">

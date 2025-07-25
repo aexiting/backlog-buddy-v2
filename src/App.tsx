@@ -10,6 +10,8 @@ import { BacklogList } from "./components/BacklogList.tsx";
 import { BacklogInputForm } from "./components/BacklogInputForm.tsx";
 import { useBacklogSearch } from "./components/use-backlog-search.ts";
 import { BacklogSearch } from "./components/BacklogSearch.tsx";
+import { useState } from "react";
+import { Masthead } from "./components/Masthead.tsx";
 
 type AppProps = {
     signOut?: UseAuthenticator["signOut"];
@@ -19,6 +21,8 @@ type AppProps = {
 const App = withAuthenticator(({ signOut, user }: AppProps) => {
     if (!signOut || !user) return <div>An auth error occurred. Please refresh.</div>
 
+    const [isInputModalOpen, setIsInputModalOpen] = useState(false);
+
     const [listState, listActions] = useBacklogList();
 
     const [inputState, inputActions] = useBacklogInput({addToBacklogList: listActions.loadMoreBacklog, username: user.username, activeItem: listState.activeItem, clearActiveItem: () => listActions.setActiveItem(undefined)});
@@ -27,11 +31,10 @@ const App = withAuthenticator(({ signOut, user }: AppProps) => {
 
     return (
         <div>
-            <BacklogInputForm state={inputState} actions={inputActions}/>
+            <Masthead username={user.username} signOut={signOut}/>
+            {isInputModalOpen && <BacklogInputForm state={inputState} actions={inputActions}/>}
+            <Button onClick={() => setIsInputModalOpen(!isInputModalOpen)}> Add to List </Button>
             <BacklogSearch state={searchState} actions={searchActions}/>
-            <Heading level={1}>Hello {user.username}</Heading>
-            <Button onClick={signOut}>Sign out</Button>
-            <h2>{user.username}'s Backlog Buddy</h2>
             <BacklogList state={listState} actions={listActions}/>
         </div>)
 });
