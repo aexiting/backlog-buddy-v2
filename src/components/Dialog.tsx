@@ -39,8 +39,6 @@ export const Dialog = ({isOpen, onClose, children}) => {
         };
     }, [onClose]);
 
-
-
     return (
         <dialog ref={dialogRef}>
         {children}

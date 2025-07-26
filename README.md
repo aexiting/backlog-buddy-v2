@@ -6,15 +6,16 @@ Personal project to learn about the AWS ecosystem with some basic system design/
 
 ## 1. UI Improvements
 
-* Add a button and modal to create new backlog items.
+If it's crossed out it should be ~~completed~~
+* ~~Add a button and modal to create new backlog items.~~
 * Fix layout bugs:
     * Title overlapping images
-    * Page resizing weirdly based on list size
-    * Load More button placement
-    * Improve colors: Can't see login and username very well. Clashing of grey /white.
+    * ~~Page resizing weirdly based on list size~~
+    * ~~Load More button placement~~
+    * ~~Improve colors: Can't see login and username very well. Clashing of grey /white.~~
 * Switch the rating slider to stars
-* Move login info (username) to top-right corner and make it easier to read
-
+* ~~Move login info (username) to top-right corner and make it easier to read~~
+* Fix display when no items to show. (empty list component?) (New)
 ## 2. Backend & Search
 
 * Stop reading directly from the database — use OpenSearch for all item searches
@@ -31,7 +32,7 @@ Personal project to learn about the AWS ecosystem with some basic system design/
 ## 3. Auth & Security
 
 * Remove hardcoded user info and link data to the logged-in user
-* Display username visibly in the header
+* ~~Display username visibly in the header~~
 * Store API keys safely in Amplify environment variables
 * Update OpenSearch to use encryption
 * Can for XSS and sql injection

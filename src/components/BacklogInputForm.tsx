@@ -8,7 +8,6 @@ import {
     Heading,
     SelectField,
     SliderField,
-    Text,
     TextField, useTheme,
     View
 } from "@aws-amplify/ui-react";

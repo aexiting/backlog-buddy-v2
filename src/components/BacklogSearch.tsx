@@ -1,5 +1,5 @@
 import type { BacklogSearchActions, BacklogSearchState } from "./use-backlog-search.ts";
-import { Alert, Card, Flex, Grid, Loader, SearchField, SelectField, View } from "@aws-amplify/ui-react";
+import { Alert, Card, Grid, Loader, SearchField, SelectField, View } from "@aws-amplify/ui-react";
 import { ItemStatus, ItemType } from "../../API.ts";
 
 type BacklogSearchProps = {
