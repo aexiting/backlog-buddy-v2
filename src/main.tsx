@@ -4,6 +4,7 @@ import App from './App.tsx'
 import awsconfig from './amplifyconfiguration.json';
 import { Amplify } from "aws-amplify";
 import { ThemeProvider } from "@aws-amplify/ui-react";
+import { backlogBuddyTheme } from "./theme.tsx";
 // Uncomment this out if you want to test using local graphql instance
 // Amplify.configure({
 //     ...awsconfig,
@@ -14,7 +15,7 @@ import { ThemeProvider } from "@aws-amplify/ui-react";
 
 Amplify.configure(awsconfig)
 createRoot(document.getElementById('root')!).render(
-    <ThemeProvider>
+    <ThemeProvider theme={backlogBuddyTheme}>
         <App/>
     </ThemeProvider>,
 )

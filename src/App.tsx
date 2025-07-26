@@ -1,5 +1,5 @@
 
-import { Button, Heading, withAuthenticator } from '@aws-amplify/ui-react';
+import { Button, Card, Divider, Heading, useTheme, View, withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
 import { type AuthUser } from "aws-amplify/auth";
@@ -10,8 +10,9 @@ import { BacklogList } from "./components/BacklogList.tsx";
 import { BacklogInputForm } from "./components/BacklogInputForm.tsx";
 import { useBacklogSearch } from "./components/use-backlog-search.ts";
 import { BacklogSearch } from "./components/BacklogSearch.tsx";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Masthead } from "./components/Masthead.tsx";
+import { Dialog } from "./components/Dialog.tsx";
 
 type AppProps = {
     signOut?: UseAuthenticator["signOut"];
@@ -19,9 +20,10 @@ type AppProps = {
 };
 
 const App = withAuthenticator(({ signOut, user }: AppProps) => {
+    const theme = useTheme();
     if (!signOut || !user) return <div>An auth error occurred. Please refresh.</div>
 
-    const [isInputModalOpen, setIsInputModalOpen] = useState(false);
+    const [isBacklogOpen, setIsBacklogInputOpen] = useState(false);
 
     const [listState, listActions] = useBacklogList();
 
@@ -30,13 +32,19 @@ const App = withAuthenticator(({ signOut, user }: AppProps) => {
     const [searchState, searchActions] = useBacklogSearch({ onBacklogFetch: listActions.setBacklogList });
 
     return (
-        <div>
+        <View backgroundColor={theme.tokens.colors.background.primary}>
             <Masthead username={user.username} signOut={signOut}/>
-            {isInputModalOpen && <BacklogInputForm state={inputState} actions={inputActions}/>}
+            <Dialog onClose={() => {
+                setIsBacklogInputOpen(false)
+                listActions.setActiveItem(undefined)
+            }} isOpen={isBacklogOpen}>
+                {<BacklogInputForm state={inputState} actions={inputActions}/>}
+            </Dialog>
             <BacklogSearch state={searchState} actions={searchActions}/>
-            <Button onClick={() => setIsInputModalOpen(!isInputModalOpen)}> Add to List </Button>
+            <Divider orientation="horizontal" marginBottom="40px"/>
+            <Button variation="primary" onClick={() => setIsBacklogInputOpen(true)}> {listState.activeItem ? "Edit backlog item" : 'Add to list'} </Button>
             <BacklogList state={listState} actions={listActions}/>
-        </div>
+        </View>
     )
 });
 

@@ -4,12 +4,12 @@ import {
     Alert,
     Button,
     Card,
-    Flex,
+    Flex, Grid,
     Heading,
     SelectField,
     SliderField,
     Text,
-    TextField,
+    TextField, useTheme,
     View
 } from "@aws-amplify/ui-react";
 
@@ -20,8 +20,7 @@ type BacklogInputFormProps = {
 
 
 export const BacklogInputForm = ({ state, actions }: BacklogInputFormProps) => {
-
-
+    const theme = useTheme();
     const { input, isLoading, isError, isEditMode } = state;
     const { setInput, submitBacklogItem, submitBacklogEdit, submitBacklogDelete } = actions;
 
@@ -40,7 +39,15 @@ export const BacklogInputForm = ({ state, actions }: BacklogInputFormProps) => {
     };
 
     return (
-        <Card>
+        <Card
+            position="fixed"
+            top="50%"
+            left="50%"
+            transform="translate(-50%, -50%)"
+            width="60vw"
+            backgroundColor={theme.tokens.colors.background.secondary}
+            border={`1px solid ${theme.tokens.colors.border.primary}`}
+        >
             <View as="form" onSubmit={handleSubmit}>
                 <Flex direction="row" gap="1rem" justifyContent="space-between">
 
@@ -61,7 +68,7 @@ export const BacklogInputForm = ({ state, actions }: BacklogInputFormProps) => {
                         Delete
                     </Button>}
                 </Flex>
-                <Flex direction="column" gap="1rem">
+                <Grid templateColumns="repeat(1, 1fr)" gap="1rem">
                     <TextField
                         label="Title"
                         placeholder="Cowboy Bebop"
@@ -92,17 +99,14 @@ export const BacklogInputForm = ({ state, actions }: BacklogInputFormProps) => {
 
 
                     <SliderField
-                        label={
-                            <Text as="span">
-                                Rating <Text color="font.secondary">(optional)</Text>
-                            </Text>
-                        }
+                        label="Rating"
                         min={1}
                         max={5}
                         step={1}
                         value={input.rating}
                         onChange={(value) => onChange('rating')(value)}
                         isValueHidden={false}
+                        isRequired={true}
                     />
 
                     {isError && (
@@ -120,7 +124,7 @@ export const BacklogInputForm = ({ state, actions }: BacklogInputFormProps) => {
                     >
                         {isEditMode ? 'Update backlog' : 'Add to backlog'}
                     </Button>
-                </Flex>
+                </Grid>
             </View>
         </
             Card>

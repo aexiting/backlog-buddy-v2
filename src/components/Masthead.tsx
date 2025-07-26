@@ -1,4 +1,4 @@
-import { Button, Flex, Heading, View } from "@aws-amplify/ui-react";
+import { Button, Flex, Heading, useTheme, View } from "@aws-amplify/ui-react";
 import type { UseAuthenticator } from "@aws-amplify/ui-react-core";
 
 
@@ -9,13 +9,7 @@ type MastheadProps = {
 }
 
 export const Masthead = ({ username, signOut }: MastheadProps) => {
-
-    const colors = {
-        background: 'rgb(19, 28, 41)',
-        textPrimary: 'rgb(230, 237, 245)',
-        textSecondary: 'rgb(148, 163, 184)',
-        border: 'rgb(30, 42, 58)',
-    };
+    const theme = useTheme();
 
     return (
         <View
@@ -23,8 +17,8 @@ export const Masthead = ({ username, signOut }: MastheadProps) => {
             position="relative"
             width="100%"
             padding="1rem 2rem"
-            backgroundColor={colors.background}
-            border={`1px solid ${colors.border}`}
+            backgroundColor={theme.tokens.colors.background.secondary}
+            border={`1px solid ${theme.tokens.colors.border.primary}`}
         >
             <Flex
                 direction="row"
@@ -32,7 +26,7 @@ export const Masthead = ({ username, signOut }: MastheadProps) => {
                 alignItems="center"
             >
                 <Heading
-                    color={colors.textPrimary}
+                    color={theme.tokens.colors.font.primary}
                     fontWeight="500"
                     level={5}
                 >

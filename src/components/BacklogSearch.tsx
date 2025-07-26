@@ -1,5 +1,5 @@
 import type { BacklogSearchActions, BacklogSearchState } from "./use-backlog-search.ts";
-import { Alert, Card, Flex, Label, Loader, SearchField, SelectField, TextField, View } from "@aws-amplify/ui-react";
+import { Alert, Card, Flex, Grid, Loader, SearchField, SelectField, View } from "@aws-amplify/ui-react";
 import { ItemStatus, ItemType } from "../../API.ts";
 
 type BacklogSearchProps = {
@@ -12,10 +12,16 @@ export const BacklogSearch = ({ state, actions }: BacklogSearchProps) => {
     const { setTitle, setType, setRating, setStatus } = actions;
 
 
+
     return (
-        <Card>
+        <Card >
             <View as="form">
-                <Flex direction="row" alignItems="center" justifyContent="flex-end">
+                <Grid
+                    alignItems="end"
+                    templateColumns="repeat(5, 1fr) auto"
+                    gap="1rem"
+
+                >
                 <SearchField
                     labelHidden={false}
                     label="Title Search"
@@ -26,6 +32,7 @@ export const BacklogSearch = ({ state, actions }: BacklogSearchProps) => {
                 <SelectField
                     label="Type"
                     value={type}
+                    isDisabled={isLoading}
                     onChange={(e) => setType(e.target.value as ItemType)}
                 >
                     <option value={undefined}>All</option>
@@ -35,6 +42,7 @@ export const BacklogSearch = ({ state, actions }: BacklogSearchProps) => {
                 <SelectField
                     label="Status"
                     value={status}
+                    isDisabled={isLoading}
                     onChange={(e) => setStatus(e.target.value as ItemStatus)}
                 >
                     <option value={undefined}>All</option>
@@ -46,6 +54,7 @@ export const BacklogSearch = ({ state, actions }: BacklogSearchProps) => {
                 <SelectField
                     label="Min-Rating"
                     value={rating?.toString()}
+                    isDisabled={isLoading}
                     onChange={(e) => setRating(Number(e.target.value))}
                 >
                     <option value={undefined}>All</option>
@@ -61,7 +70,7 @@ export const BacklogSearch = ({ state, actions }: BacklogSearchProps) => {
                         <p>There was an error trying to search backlog.</p>
                     </Alert>
                 )}
-                </Flex>
+                </Grid>
             </View>
     </Card>
     )
