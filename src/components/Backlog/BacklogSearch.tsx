@@ -28,6 +28,7 @@ export const BacklogSearch = ({ state, actions }: BacklogSearchProps) => {
                     value={title}
                     isDisabled={isLoading}
                     onChange={(e) => setTitle(e.target.value)}
+                    onClear={() => setTitle("")}
                 />
                 <SelectField
                     label="Type"
