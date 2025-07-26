@@ -1,7 +1,12 @@
-import { useEffect, useRef } from "react";
+import { type ReactNode, useEffect, useRef } from "react";
 
+type DialogProps = {
+    isOpen: boolean;
+    onClose: () => void;
+    children: ReactNode
+}
 
-export const Dialog = ({isOpen, onClose, children}) => {
+export const Dialog = ({isOpen, onClose, children} : DialogProps) => {
     const dialogRef = useRef<HTMLDialogElement>(null);
 
     useEffect(() => {

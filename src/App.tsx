@@ -1,5 +1,5 @@
 
-import { Button, Card, Divider, Heading, useTheme, View, withAuthenticator } from '@aws-amplify/ui-react';
+import { Button, Divider, useTheme, View, withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
 import { type AuthUser } from "aws-amplify/auth";
@@ -10,7 +10,7 @@ import { BacklogList } from "./components/BacklogList.tsx";
 import { BacklogInputForm } from "./components/BacklogInputForm.tsx";
 import { useBacklogSearch } from "./components/use-backlog-search.ts";
 import { BacklogSearch } from "./components/BacklogSearch.tsx";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Masthead } from "./components/Masthead.tsx";
 import { Dialog } from "./components/Dialog.tsx";
 

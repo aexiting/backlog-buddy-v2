@@ -80,7 +80,6 @@ export const useBacklogSearch = ({ onBacklogFetch }: UseBacklogSearch): [Backlog
                 authMode: "userPool"
             })
             const searchResults = data.searchBacklogItems
-            console.log(searchResults)
             if (!searchResults) {
                 console.log("No backlog data available.")
                 return
