@@ -40,9 +40,13 @@ const App = withAuthenticator(({ signOut, user }: AppProps) => {
             }} isOpen={isBacklogOpen}>
                 {<BacklogInputForm state={inputState} actions={inputActions}/>}
             </Dialog>
-            <BacklogSearch state={searchState} actions={searchActions}/>
-            <Divider orientation="horizontal" marginBottom="40px"/>
-            <Button variation="primary" onClick={() => setIsBacklogInputOpen(true)}> {listState.activeItem ? "Edit backlog item" : 'Add to list'} </Button>
+            <BacklogSearch state={searchState} actions={searchActions}>
+                <Button
+                    marginTop="1rem"
+                    variation="primary" onClick={() => setIsBacklogInputOpen(true)}> {listState.activeItem ? "Edit backlog item" : 'Add to list'}
+                </Button>
+            </BacklogSearch>
+            <Divider orientation="horizontal" marginBottom="20px"/>
             <BacklogList state={listState} actions={listActions}/>
         </View>
     )

@@ -1,7 +1,7 @@
 import { BacklogItem } from "./BacklogItem.tsx";
 import type { BacklogListActions, BacklogListState } from "./use-backlog-list.ts";
 import { motion } from 'framer-motion';
-import { Button, Flex, Loader } from "@aws-amplify/ui-react";
+import { Button, Card, Flex, Heading, Loader } from "@aws-amplify/ui-react";
 
 
 type BacklogListProps = {
@@ -14,10 +14,10 @@ export const BacklogList = ({ state, actions }: BacklogListProps) => {
     const { loadMoreBacklog, setActiveItem } = actions;
     if (!items || items.length == 0) {
         return (
-            <div>
-                {isError && <h1> There was an error when loading the backlog... please refresh.</h1>}
-                <p>No backlog items to display.</p>
-            </div>
+            <Card height="100%" width="100%" position="absolute">
+                    {isError && <Heading> There was an error when loading the backlog... please refresh.</Heading>}
+                    <Heading textAlign="center" level={3}>No Results</Heading>
+            </Card>
         )
     }
 
@@ -41,7 +41,7 @@ export const BacklogList = ({ state, actions }: BacklogListProps) => {
                         onClick={() => loadMoreBacklog()}
                         isLoading={isLoading}
                     >
-                        {isLoading ? <Loader size="small" /> : 'Load more'}
+                        {isLoading ? <Loader size="small"/> : 'Load more'}
                     </Button>
                 </Flex>
             )}

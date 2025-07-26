@@ -1,5 +1,5 @@
 import { ItemStatus, ItemType } from "../../../API.ts";
-import { Badge, Card, Flex, Heading, Image, Rating, useTheme, View } from "@aws-amplify/ui-react";
+import { Badge, Card, Flex, Heading, Image, Rating, useTheme } from "@aws-amplify/ui-react";
 
 export type BacklogItemProps = {
     status: ItemStatus;
@@ -14,13 +14,13 @@ const MAX_RATING = 5;
 
 
 type DatePillProps = {
-    date: string; // or Date
+    date: string;
 };
 
 export const DatePill = ({ date }: DatePillProps) => {
     const { tokens } = useTheme();
 
-    // format however you like; here we go MM/DD/YYYY
+
     const formatted = new Date(date).toLocaleDateString("en-US", {
         month: "2-digit",
         day: "2-digit",
@@ -33,13 +33,13 @@ export const DatePill = ({ date }: DatePillProps) => {
             borderRadius={tokens.radii.full}
             paddingInline={tokens.space.small}
             fontWeight={tokens.fontWeights.medium}
+            backgroundColor={tokens.colors.blue["80"]}
             paddingBlock="6px"
         >
             {formatted}
         </Badge>
     );
 };
-
 
 export const BacklogItem = ({
                                 status,
@@ -60,12 +60,9 @@ export const BacklogItem = ({
             as="button"
         >
             <Flex direction="column" alignItems="flex-start">
-                <View width="100%" height="0" paddingBottom="140%">
                     <Image alt={title}
                            src={image}
                            objectFit="cover"/>
-                </View>
-
                 <Flex direction="row" alignItems="flex-start" marginBlockEnd="0">
                     <Heading level={5}>
                         {title}

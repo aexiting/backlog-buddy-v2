@@ -1,26 +1,27 @@
 import type { BacklogSearchActions, BacklogSearchState } from "./use-backlog-search.ts";
-import { Alert, Card, Grid, Loader, SearchField, SelectField, View } from "@aws-amplify/ui-react";
+import { Alert, Card, Grid, Loader, SearchField, SelectField, useTheme, View } from "@aws-amplify/ui-react";
 import { ItemStatus, ItemType } from "../../../API.ts";
+import type { ReactNode } from "react";
 
 type BacklogSearchProps = {
     state: BacklogSearchState,
     actions: BacklogSearchActions
+    children?: ReactNode;
 }
 
-export const BacklogSearch = ({ state, actions }: BacklogSearchProps) => {
+export const BacklogSearch = ({ state, actions, children }: BacklogSearchProps) => {
     const { isLoading, isError, title, type, rating, status } = state;
     const { setTitle, setType, setRating, setStatus } = actions;
 
-
+    const theme = useTheme();
 
     return (
         <Card >
             <View as="form">
                 <Grid
                     alignItems="end"
-                    templateColumns="repeat(5, 1fr) auto"
-                    gap="1rem"
-
+                    templateColumns="repeat(4, minmax(100px, 300px)) "
+                    gap="3em"
                 >
                 <SearchField
                     labelHidden={false}
@@ -64,7 +65,6 @@ export const BacklogSearch = ({ state, actions }: BacklogSearchProps) => {
                     <option value={4}>Four Stars</option>
                     <option value={5}>Five Stars</option>
                 </SelectField>
-                {isLoading && <Loader variation="linear" />}
                 {isError && (
                     <Alert variation="error" isDismissible={true} role="alert">
                         <p>Something went wrong try—please try again.</p>
@@ -72,7 +72,9 @@ export const BacklogSearch = ({ state, actions }: BacklogSearchProps) => {
                     </Alert>
                 )}
                 </Grid>
+                {children}
             </View>
-    </Card>
+            {isLoading && <Loader position="absolute" variation="linear" size="small" emptyColor={theme.tokens.colors.background.primary}/>}
+        </Card>
     )
 }
