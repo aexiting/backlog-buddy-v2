@@ -8,6 +8,7 @@ frontend:
       commands:
         - export AWS_LAMBDA_NODEJS_USE_NPM=1
         - npm ci
+        - amplifyPush --simple
     build:
       commands:
         - npm run build
