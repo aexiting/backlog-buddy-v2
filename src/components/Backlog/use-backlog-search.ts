@@ -1,7 +1,7 @@
-import { type BacklogItem, ItemStatus, ItemType } from "../../API.ts";
+import { type BacklogItem, ItemStatus, ItemType } from "../../../API.ts";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { generateClient } from "aws-amplify/api";
-import { searchBacklogItems } from "../graphql/queries.ts";
+import { searchBacklogItems } from "../../graphql/queries.ts";
 
 
 export type UseBacklogSearch = {

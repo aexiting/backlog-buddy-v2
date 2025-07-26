@@ -1,11 +1,11 @@
 import {
     type BacklogItem,
     type ListBacklogItemsQuery,
-} from '../../API';
-import { onCreateBacklogItem, onDeleteBacklogItem, onUpdateBacklogItem } from "../graphql/subscriptions";
+} from '../../../API.ts';
+import { onCreateBacklogItem, onDeleteBacklogItem, onUpdateBacklogItem } from "../../graphql/subscriptions.ts";
 import { generateClient, type GraphQLQuery } from "aws-amplify/api";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { listBacklogItems } from "../graphql/queries.ts";
+import { listBacklogItems } from "../../graphql/queries.ts";
 
 
 export type BacklogListState = {

@@ -4,12 +4,12 @@ import '@aws-amplify/ui-react/styles.css';
 
 import { type AuthUser } from "aws-amplify/auth";
 import { type UseAuthenticator } from '@aws-amplify/ui-react-core';
-import { useBacklogInput } from "./components/use-backlog-input.ts";
-import { useBacklogList } from "./components/use-backlog-list.ts";
-import { BacklogList } from "./components/BacklogList.tsx";
-import { BacklogInputForm } from "./components/BacklogInputForm.tsx";
-import { useBacklogSearch } from "./components/use-backlog-search.ts";
-import { BacklogSearch } from "./components/BacklogSearch.tsx";
+import { useBacklogInput } from "./components/Backlog/use-backlog-input.ts";
+import { useBacklogList } from "./components/Backlog/use-backlog-list.ts";
+import { BacklogList } from "./components/Backlog/BacklogList.tsx";
+import { BacklogInputForm } from "./components/Backlog/BacklogInputForm.tsx";
+import { useBacklogSearch } from "./components/Backlog/use-backlog-search.ts";
+import { BacklogSearch } from "./components/Backlog/BacklogSearch.tsx";
 import { useState } from "react";
 import { Masthead } from "./components/Masthead.tsx";
 import { Dialog } from "./components/Dialog.tsx";

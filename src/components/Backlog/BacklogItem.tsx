@@ -1,4 +1,4 @@
-import { ItemStatus, ItemType } from "../../API.ts";
+import { ItemStatus, ItemType } from "../../../API.ts";
 import { Badge, Card, Flex, Heading, Image, Rating, useTheme, View } from "@aws-amplify/ui-react";
 
 export type BacklogItemProps = {
