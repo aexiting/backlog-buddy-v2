@@ -1,4 +1,4 @@
-import { ItemStatus, ItemType } from "../../../API.ts";
+import { ItemStatus, ItemType } from "../../../../API.ts";
 import type { BacklogInputActions, BacklogInputState } from "./use-backlog-input.ts";
 import {
     Alert,
@@ -105,7 +105,6 @@ export const BacklogInputForm = ({ state, actions }: BacklogInputFormProps) => {
                         value={input.rating}
                         onChange={(value) => onChange('rating')(value)}
                         isValueHidden={false}
-                        isRequired={true}
                     />
 
                     {isError && (

@@ -3,17 +3,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { generateClient } from "aws-amplify/api";
 import { searchBacklogItems } from "../../graphql/queries.ts";
 
-
-export type UseBacklogSearch = {
-    onBacklogFetch: (items: BacklogItem[]) => void;
-}
-
 export type BacklogSearchActions = {
     setTitle: (text: string) => void;
     setType: (type: ItemType) => void;
     setRating: (rating: number) => void;
     setStatus: (status: ItemStatus) => void;
-
+    loadMoreBacklog: () => Promise<void>;
 }
 
 export type BacklogSearchState = {
@@ -23,14 +18,14 @@ export type BacklogSearchState = {
     type?: ItemType;
     rating?: number;
     status?: ItemStatus;
+    items: BacklogItem[];
 }
 
-
-const useDebounce  = <T>(value: T, delay: number) => {
+const useDebounce = <T>(value: T, delay: number) => {
     const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
     useEffect(() => {
-        const handler = setTimeout(()=> {
+        const handler = setTimeout(() => {
             setDebouncedValue(value)
         }, delay)
 
@@ -42,7 +37,8 @@ const useDebounce  = <T>(value: T, delay: number) => {
     return debouncedValue
 }
 
-export const useBacklogSearch = ({ onBacklogFetch }: UseBacklogSearch): [BacklogSearchState, BacklogSearchActions] => {
+const MAX_ENTRIES = 10;
+export const useBacklogSearch = (): [BacklogSearchState, BacklogSearchActions] => {
 
     const clientRef = useRef(generateClient());
     const from = useRef(0)
@@ -52,57 +48,77 @@ export const useBacklogSearch = ({ onBacklogFetch }: UseBacklogSearch): [Backlog
         isLoading: false,
         isError: false,
         title: "",
+        items: []
     }
 
     const [state, setState] = useState(initialState);
     const debouncedState = useDebounce(state, 500)
 
-    const fetchBacklog = useCallback ( async () => {
-        setState(prevState => ({...prevState, isLoading: true, isError: false}))
-        const {type, rating, title, status} = debouncedState
+    const performSearch = useCallback(async (offset: number, isLoadMore = false) => {
+        setState(prevState => ({ ...prevState, isLoading: true, isError: false }));
+
+        const { type, rating, title, status } = debouncedState;
         const input = {
-            ...(type && { type: type }),
+            ...(type && { type }),
             ...(status && { status }),
             ...(rating && { rating }),
             title: title || "",
-            // if there's a blank value we can do a search for everything using wildcard
-        }
+        };
 
         try {
-            console.log(input)
             const { data } = await client.graphql({
                 query: searchBacklogItems,
                 variables: {
                     ...input,
-                    from: from.current, // later on we should allow for more results but keep it simple for now
+                    from: offset,
                     owner: "adam",
                 },
                 authMode: "userPool"
-            })
-            const searchResults = data.searchBacklogItems
+            });
+
+            const searchResults = data.searchBacklogItems;
             if (!searchResults) {
-                console.log("No backlog data available.")
-                return
+                console.log("No backlog data available.");
+                return;
             }
 
-            onBacklogFetch(searchResults.filter(result => result != undefined))
-        }
-        catch(err) {
-            setState(prevState => ({...prevState, isError: true}))
-            console.log("There was an error calling graphql", err)
-        }
-        finally {
-            setState(prevState => ({...prevState, isLoading: false}))
-        }
+            const newItems = searchResults.filter(result => result != undefined);
 
-    }, [debouncedState.title])
+            // Conditionally update items: append for "load more", replace for a new search.
+            setState(prevState => ({
+                ...prevState,
+                items: isLoadMore ? [...prevState.items, ...newItems] : newItems,
+            }));
+
+        } catch (err) {
+            setState(prevState => ({ ...prevState, isError: true }));
+            console.log("There was an error calling graphql", err);
+        } finally {
+            setState(prevState => ({ ...prevState, isLoading: false }));
+        }
+    }, [debouncedState.title, debouncedState.rating, debouncedState.status, debouncedState.type]);
+
+    const fetchBacklog = useCallback(async () => {
+        // Reset the offset for a fresh search
+        from.current = 0;
+        await performSearch(0, false);
+    }, [performSearch]);
+
+    const loadMoreBacklog = useCallback(async () => {
+        // Increment the offset and perform the search
+        const newOffset = from.current + MAX_ENTRIES;
+        from.current = newOffset;
+        await performSearch(newOffset, true);
+    }, [performSearch]);
 
     useEffect(() => {
+        from.current = 0;
         fetchBacklog()
-    }, [debouncedState.title, fetchBacklog,  client]);
+    }, [debouncedState.title, debouncedState.rating, debouncedState.status, debouncedState.type, client]);
 
-    
+
     return [state, {
+        loadMoreBacklog,
         setTitle: (text: string) => setState(prevState => ({ ...prevState, title: text })),
         setRating: (rating: number) => setState(prevState => ({ ...prevState, rating })),
         setType: (type: ItemType) => setState(prevState => ({ ...prevState, type })),

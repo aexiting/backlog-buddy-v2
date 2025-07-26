@@ -1,7 +1,7 @@
-import { type BacklogItem, type CreateBacklogItemInput, ItemStatus, ItemType } from "../../../API.ts";
+import { type BacklogItem, type CreateBacklogItemInput, ItemStatus, ItemType } from "../../../../API.ts";
 import { generateClient } from "aws-amplify/api";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { createBacklogItem, deleteBacklogItem, updateBacklogItem } from "../../graphql/mutations.ts";
+import { createBacklogItem, deleteBacklogItem, updateBacklogItem } from "../../../graphql/mutations.ts";
 
 export interface MediaMeta {
     fullTitle: string;
@@ -22,7 +22,6 @@ export const fetchMediaMeta = (title: string, type: ItemType): MediaMeta => {
 }
 
 type UseBacklogInputProps = {
-    addToBacklogList: (newItem: BacklogItem) => void;
     username: string;
     activeItem?: BacklogItem
     clearActiveItem: () => void;
