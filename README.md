@@ -103,7 +103,7 @@ If it's crossed out it should be ~~completed~~
 * ~~Fix display when no items to show. (empty list component?) (New)~~
 
 ## 2. Backend & Search
-* Stop reading directly from the database — use OpenSearch for all item searches
+~~* Stop reading directly from the database — use OpenSearch for all item searches~~
 * Add more fields to the backlog index (like user ID and anime ID) rather than just the title
 * Create a new OpenSearch index for anime info with fields:
     * ID
@@ -113,6 +113,15 @@ If it's crossed out it should be ~~completed~~
     * Status counts ()
 * Use the anime index to power a dropdown when adding backlog items
 * Re-run search when items are added, edited, or deleted
+* Update search lambda to make it easier to tell if more documents available
+
+## 4. Testing & CI
+
+* Write Playwright tests for adding, editing, deleting, and searching items
+* Write unit tests for important logic like OpenSearch queries
+* Use GitHub Actions to run tests on every pull request
+* Use Amplify Preview to test new branches before merging
+* Add some security related tests like trying to access another user's backlog
 
 ## 3. Auth & Security
 
@@ -124,13 +133,7 @@ If it's crossed out it should be ~~completed~~
 * Update amplify graphql auth rules
 * Create a userId (uuid) rather than using user id in OpenSearch docs.
 
-## 4. Testing & CI
 
-* Write Playwright tests for adding, editing, deleting, and searching items
-* Write unit tests for important logic like OpenSearch queries
-* Use GitHub Actions to run tests on every pull request
-* Use Amplify Preview to test new branches before merging
-* Add some security related tests like trying to access another user's backlog
 
 ## 5. Seed Data & Stats
 

@@ -22,5 +22,18 @@ type Query {
   searchBacklogItems(title: String, type: ItemType, rating: Int, owner: String, status: ItemStatus, from:Int!): [BacklogItem] @function(name: "backlogSearchFn-${env}")
 }
 
+type Anime
+@model
+@auth(rules: [
+  { allow: owner },
+  { allow: public, operations: [read] }
+])
+ {
+  id: ID!
+  title: String!
+  createdAt: AWSDateTime!
+  image: String!
+}
+
 enum ItemType { GAME MANGA ANIME }
 enum ItemStatus { COMPLETED NOT_STARTED STARTED DROPPED }

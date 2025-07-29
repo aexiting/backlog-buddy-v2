@@ -14,7 +14,7 @@ export const useBacklog = (): [BacklogState, BacklogActions] => {
     const [listState, listActions] = useBacklogList();
     const [searchState, searchActions] = useBacklogSearch();
     const [isBacklogInputOpen, setIsBacklogInputOpen] = useState(false);
-    const [hasMore, setHasMore] = useState(true);
+    const [hasMore] = useState(true); // TO-DO: will find a smart way to calculate this after updating backend
 
 
     useEffect(() => {

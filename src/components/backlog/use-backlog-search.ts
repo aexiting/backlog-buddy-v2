@@ -84,7 +84,6 @@ export const useBacklogSearch = (): [BacklogSearchState, BacklogSearchActions] =
 
             const newItems = searchResults.filter(result => result != undefined);
 
-            // Conditionally update items: append for "load more", replace for a new search.
             setState(prevState => ({
                 ...prevState,
                 items: isLoadMore ? [...prevState.items, ...newItems] : newItems,
@@ -99,13 +98,11 @@ export const useBacklogSearch = (): [BacklogSearchState, BacklogSearchActions] =
     }, [debouncedState.title, debouncedState.rating, debouncedState.status, debouncedState.type]);
 
     const fetchBacklog = useCallback(async () => {
-        // Reset the offset for a fresh search
         from.current = 0;
         await performSearch(0, false);
     }, [performSearch]);
 
     const loadMoreBacklog = useCallback(async () => {
-        // Increment the offset and perform the search
         const newOffset = from.current + MAX_ENTRIES;
         from.current = newOffset;
         await performSearch(newOffset, true);
