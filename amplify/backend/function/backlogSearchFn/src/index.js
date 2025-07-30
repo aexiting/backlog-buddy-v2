@@ -53,7 +53,7 @@ const handler = async (event) => {
         // I made a mistke with seeding the documents... I should have added a UUID for each backlog item when I started
         // seeding. my bad g.
         // TO-DO: We should have source of truth so I should update indexer to include the id.
-        const results = hits.hits.map(hit => hit._source).map(hit => ({...hit, id: crypto.randomUUID()}));
+        const results = hits.hits.map(hit => ({...hit._source, id: hit._id}));
         console.log("Getting results");
         console.log(`Found ${results.length} items.`);
         return results;

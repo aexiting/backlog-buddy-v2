@@ -84,3 +84,35 @@ export const listBacklogItems = /* GraphQL */ `query ListBacklogItems(
   APITypes.ListBacklogItemsQueryVariables,
   APITypes.ListBacklogItemsQuery
 >;
+export const getAnime = /* GraphQL */ `query GetAnime($id: ID!) {
+  getAnime(id: $id) {
+    id
+    title
+    createdAt
+    image
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.GetAnimeQueryVariables, APITypes.GetAnimeQuery>;
+export const listAnime = /* GraphQL */ `query ListAnime(
+  $filter: ModelAnimeFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listAnime(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      title
+      createdAt
+      image
+      updatedAt
+      owner
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.ListAnimeQueryVariables, APITypes.ListAnimeQuery>;

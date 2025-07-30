@@ -132,6 +132,45 @@ export type DeleteBacklogItemInput = {
   id: string,
 };
 
+export type CreateAnimeInput = {
+  id?: string | null,
+  title: string,
+  createdAt?: string | null,
+  image: string,
+};
+
+export type ModelAnimeConditionInput = {
+  title?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  image?: ModelStringInput | null,
+  and?: Array< ModelAnimeConditionInput | null > | null,
+  or?: Array< ModelAnimeConditionInput | null > | null,
+  not?: ModelAnimeConditionInput | null,
+  updatedAt?: ModelStringInput | null,
+  owner?: ModelStringInput | null,
+};
+
+export type Anime = {
+  __typename: "Anime",
+  id: string,
+  title: string,
+  createdAt: string,
+  image: string,
+  updatedAt: string,
+  owner?: string | null,
+};
+
+export type UpdateAnimeInput = {
+  id: string,
+  title?: string | null,
+  createdAt?: string | null,
+  image?: string | null,
+};
+
+export type DeleteAnimeInput = {
+  id: string,
+};
+
 export type ModelBacklogItemFilterInput = {
   id?: ModelIDInput | null,
   title?: ModelStringInput | null,
@@ -166,6 +205,24 @@ export type ModelIDInput = {
 export type ModelBacklogItemConnection = {
   __typename: "ModelBacklogItemConnection",
   items:  Array<BacklogItem | null >,
+  nextToken?: string | null,
+};
+
+export type ModelAnimeFilterInput = {
+  id?: ModelIDInput | null,
+  title?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  image?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelAnimeFilterInput | null > | null,
+  or?: Array< ModelAnimeFilterInput | null > | null,
+  not?: ModelAnimeFilterInput | null,
+  owner?: ModelStringInput | null,
+};
+
+export type ModelAnimeConnection = {
+  __typename: "ModelAnimeConnection",
+  items:  Array<Anime | null >,
   nextToken?: string | null,
 };
 
@@ -225,6 +282,17 @@ export type ModelSubscriptionIntInput = {
   notIn?: Array< number | null > | null,
 };
 
+export type ModelSubscriptionAnimeFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  title?: ModelSubscriptionStringInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  image?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionAnimeFilterInput | null > | null,
+  or?: Array< ModelSubscriptionAnimeFilterInput | null > | null,
+  owner?: ModelStringInput | null,
+};
+
 export type CreateBacklogItemMutationVariables = {
   input: CreateBacklogItemInput,
   condition?: ModelBacklogItemConditionInput | null,
@@ -282,6 +350,57 @@ export type DeleteBacklogItemMutation = {
     status: ItemStatus,
     image: string,
     updatedAt: string,
+  } | null,
+};
+
+export type CreateAnimeMutationVariables = {
+  input: CreateAnimeInput,
+  condition?: ModelAnimeConditionInput | null,
+};
+
+export type CreateAnimeMutation = {
+  createAnime?:  {
+    __typename: "Anime",
+    id: string,
+    title: string,
+    createdAt: string,
+    image: string,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type UpdateAnimeMutationVariables = {
+  input: UpdateAnimeInput,
+  condition?: ModelAnimeConditionInput | null,
+};
+
+export type UpdateAnimeMutation = {
+  updateAnime?:  {
+    __typename: "Anime",
+    id: string,
+    title: string,
+    createdAt: string,
+    image: string,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type DeleteAnimeMutationVariables = {
+  input: DeleteAnimeInput,
+  condition?: ModelAnimeConditionInput | null,
+};
+
+export type DeleteAnimeMutation = {
+  deleteAnime?:  {
+    __typename: "Anime",
+    id: string,
+    title: string,
+    createdAt: string,
+    image: string,
+    updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -353,6 +472,44 @@ export type ListBacklogItemsQuery = {
   } | null,
 };
 
+export type GetAnimeQueryVariables = {
+  id: string,
+};
+
+export type GetAnimeQuery = {
+  getAnime?:  {
+    __typename: "Anime",
+    id: string,
+    title: string,
+    createdAt: string,
+    image: string,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type ListAnimeQueryVariables = {
+  filter?: ModelAnimeFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListAnimeQuery = {
+  listAnime?:  {
+    __typename: "ModelAnimeConnection",
+    items:  Array< {
+      __typename: "Anime",
+      id: string,
+      title: string,
+      createdAt: string,
+      image: string,
+      updatedAt: string,
+      owner?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type OnCreateBacklogItemSubscriptionVariables = {
   filter?: ModelSubscriptionBacklogItemFilterInput | null,
   owner?: string | null,
@@ -410,5 +567,56 @@ export type OnDeleteBacklogItemSubscription = {
     status: ItemStatus,
     image: string,
     updatedAt: string,
+  } | null,
+};
+
+export type OnCreateAnimeSubscriptionVariables = {
+  filter?: ModelSubscriptionAnimeFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnCreateAnimeSubscription = {
+  onCreateAnime?:  {
+    __typename: "Anime",
+    id: string,
+    title: string,
+    createdAt: string,
+    image: string,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type OnUpdateAnimeSubscriptionVariables = {
+  filter?: ModelSubscriptionAnimeFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnUpdateAnimeSubscription = {
+  onUpdateAnime?:  {
+    __typename: "Anime",
+    id: string,
+    title: string,
+    createdAt: string,
+    image: string,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type OnDeleteAnimeSubscriptionVariables = {
+  filter?: ModelSubscriptionAnimeFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnDeleteAnimeSubscription = {
+  onDeleteAnime?:  {
+    __typename: "Anime",
+    id: string,
+    title: string,
+    createdAt: string,
+    image: string,
+    updatedAt: string,
+    owner?: string | null,
   } | null,
 };

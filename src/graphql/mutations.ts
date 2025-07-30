@@ -71,3 +71,57 @@ export const deleteBacklogItem = /* GraphQL */ `mutation DeleteBacklogItem(
   APITypes.DeleteBacklogItemMutationVariables,
   APITypes.DeleteBacklogItemMutation
 >;
+export const createAnime = /* GraphQL */ `mutation CreateAnime(
+  $input: CreateAnimeInput!
+  $condition: ModelAnimeConditionInput
+) {
+  createAnime(input: $input, condition: $condition) {
+    id
+    title
+    createdAt
+    image
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateAnimeMutationVariables,
+  APITypes.CreateAnimeMutation
+>;
+export const updateAnime = /* GraphQL */ `mutation UpdateAnime(
+  $input: UpdateAnimeInput!
+  $condition: ModelAnimeConditionInput
+) {
+  updateAnime(input: $input, condition: $condition) {
+    id
+    title
+    createdAt
+    image
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateAnimeMutationVariables,
+  APITypes.UpdateAnimeMutation
+>;
+export const deleteAnime = /* GraphQL */ `mutation DeleteAnime(
+  $input: DeleteAnimeInput!
+  $condition: ModelAnimeConditionInput
+) {
+  deleteAnime(input: $input, condition: $condition) {
+    id
+    title
+    createdAt
+    image
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteAnimeMutationVariables,
+  APITypes.DeleteAnimeMutation
+>;

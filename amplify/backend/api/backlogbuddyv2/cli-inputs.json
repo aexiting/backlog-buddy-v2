@@ -7,7 +7,14 @@
       "mode": "AMAZON_COGNITO_USER_POOLS",
       "cognitoUserPoolId": "authbacklogbuddyv2732ef4b9"
     },
-    "additionalAuthTypes": [],
+    "additionalAuthTypes": [
+      {
+        "mode": "API_KEY",
+        "expirationTime": 365,
+        "apiKeyExpirationDate": "2026-07-29T18:08:36.554Z",
+        "keyDescription": "api for cli to be used for backlog-buddy project"
+      }
+    ],
     "conflictResolution": {}
   }
 }

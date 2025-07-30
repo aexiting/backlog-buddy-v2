@@ -126,6 +126,7 @@ If it's crossed out it should be ~~completed~~
 ## 3. Auth & Security
 
 * Remove hardcoded user info and link data to the logged-in user
+* Add field-level auth rules
 * ~~Display username visibly in the header~~
 * Store API keys safely in Amplify environment variables
 * Update OpenSearch to use encryption

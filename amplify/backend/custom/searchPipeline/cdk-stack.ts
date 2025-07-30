@@ -50,6 +50,11 @@ export class cdkStack extends Stack {
       tableStreamArn: 'arn:aws:dynamodb:us-east-1:479699168417:table/BacklogItem-qysl5ncp2jb6fdvi2vollqeete-dev/stream/2025-07-18T13:42:33.324',
     });
 
+    const animeTable = ddb.Table.fromTableAttributes(this, 'Anime', {
+      tableName: 'Anime-dev',
+      tableStreamArn: 'arn:aws:dynamodb:us-east-1:479699168417:table/Anime-qysl5ncp2jb6fdvi2vollqeete-dev/stream/2025-07-29T18:10:27.787',
+    });
+
     const dlq = new sqs.Queue(this, 'IndexerDLQ', {
       retentionPeriod: Duration.days(14)
     });
@@ -92,6 +97,16 @@ export class cdkStack extends Stack {
     backlogQueue.grantSendMessages(indexerFn);
 
     streamFn.addEventSource(new DynamoEventSource(backlogTable, {
+      startingPosition: StartingPosition.TRIM_HORIZON,
+      batchSize: DDB_BATCH_SIZE,
+      filters: [
+        lambda.FilterCriteria.filter({
+          eventName: lambda.FilterRule.notEquals('REMOVE')
+        })
+      ]
+    }));
+
+    streamFn.addEventSource(new DynamoEventSource(animeTable, {
       startingPosition: StartingPosition.TRIM_HORIZON,
       batchSize: DDB_BATCH_SIZE,
       filters: [

@@ -4,6 +4,8 @@
  * Any changes to this file will be overwritten when running amplify pull. *
  **************************************************************************/
 
+export { default as AnimeCreateForm } from "./AnimeCreateForm";
+export { default as AnimeUpdateForm } from "./AnimeUpdateForm";
 export { default as BacklogItemCreateForm } from "./BacklogItemCreateForm";
 export { default as BacklogItemUpdateForm } from "./BacklogItemUpdateForm";
 export { default as studioTheme } from "./studioTheme";

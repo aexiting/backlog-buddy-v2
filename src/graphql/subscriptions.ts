@@ -71,3 +71,57 @@ export const onDeleteBacklogItem = /* GraphQL */ `subscription OnDeleteBacklogIt
   APITypes.OnDeleteBacklogItemSubscriptionVariables,
   APITypes.OnDeleteBacklogItemSubscription
 >;
+export const onCreateAnime = /* GraphQL */ `subscription OnCreateAnime(
+  $filter: ModelSubscriptionAnimeFilterInput
+  $owner: String
+) {
+  onCreateAnime(filter: $filter, owner: $owner) {
+    id
+    title
+    createdAt
+    image
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateAnimeSubscriptionVariables,
+  APITypes.OnCreateAnimeSubscription
+>;
+export const onUpdateAnime = /* GraphQL */ `subscription OnUpdateAnime(
+  $filter: ModelSubscriptionAnimeFilterInput
+  $owner: String
+) {
+  onUpdateAnime(filter: $filter, owner: $owner) {
+    id
+    title
+    createdAt
+    image
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateAnimeSubscriptionVariables,
+  APITypes.OnUpdateAnimeSubscription
+>;
+export const onDeleteAnime = /* GraphQL */ `subscription OnDeleteAnime(
+  $filter: ModelSubscriptionAnimeFilterInput
+  $owner: String
+) {
+  onDeleteAnime(filter: $filter, owner: $owner) {
+    id
+    title
+    createdAt
+    image
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteAnimeSubscriptionVariables,
+  APITypes.OnDeleteAnimeSubscription
+>;
