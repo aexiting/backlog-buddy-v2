@@ -1,7 +1,7 @@
 import type { BacklogActions, BacklogState } from "./use-backlog.ts";
 import { Button, Card, Divider, Flex, Heading, Loader, View } from "@aws-amplify/ui-react";
-import { BacklogSearch } from "./BacklogSearch.tsx";
-import { BacklogList } from "./BacklogList.tsx";
+import { BacklogSearch } from "./BacklogSearch";
+import { BacklogList } from "./BacklogList";
 
 export type BacklogProps = {
     state: BacklogState;
@@ -10,27 +10,28 @@ export type BacklogProps = {
 
 export const Backlog = ({ state, actions }: BacklogProps) => {
     const { hasMore, isLoading, isError, items } = state;
-    const {loadMoreBacklog} = actions;
+    const { loadMoreBacklog } = actions;
     return (
         <View>
             <BacklogSearch state={{ ...state }} actions={{ ...actions }}/>
             <Divider orientation="horizontal" marginBottom="20px"/>
             <Button
                 marginTop="1rem"
-                variation="primary" onClick={() => actions.setIsBacklogInputOpen(
-                true)}> {state.activeItem ? "Edit backlog item" : 'Add to list'}
+                variation="primary" onClick={() => actions.setIsBacklogInputOpen(true)}>
+                {state.activeItem ? "Edit backlog item" : 'Add to list'}
             </Button>
             {(!items || items.length == 0) && <Card height="100%" width="100%" position="absolute">
-                {isError && <Heading> There was an error when loading the backlog... please refresh.</Heading>}
+                {isError && <Heading data-testid="error-text"> There was an error when loading the backlog... please refresh.</Heading>}
                 <Heading textAlign="center" level={3}>No Results</Heading>
             </Card>}
             <BacklogList state={{ ...state }} actions={{ ...actions }}/>
             {hasMore && (
-                <Flex justifyContent="center">
+                <Flex justifyContent="center" data-testid="loader">
                     <Button
                         variation="primary"
                         onClick={() => loadMoreBacklog()}
                         isLoading={isLoading}
+                        data-testid="load-more"
                     >
                         {isLoading ? <Loader size="small"/> : 'Load more'}
                     </Button>

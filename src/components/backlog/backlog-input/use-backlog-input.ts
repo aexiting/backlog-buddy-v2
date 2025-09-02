@@ -1,7 +1,7 @@
-import { type BacklogItem, type CreateBacklogItemInput, ItemStatus, ItemType } from "../../../../API.ts";
+import { type BacklogItem, type CreateBacklogItemInput, ItemStatus, ItemType } from "../../../../API";
 import { generateClient } from "aws-amplify/api";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { createBacklogItem, deleteBacklogItem, updateBacklogItem } from "../../../graphql/mutations.ts";
+import { createBacklogItem, deleteBacklogItem, updateBacklogItem } from "../../../graphql/mutations";
 
 export interface MediaMeta {
     fullTitle: string;

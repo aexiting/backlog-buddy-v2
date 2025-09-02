@@ -1,5 +1,5 @@
-import { type BacklogListActions, type BacklogListState, useBacklogList } from "./use-backlog-list.ts";
-import { type BacklogSearchActions, type BacklogSearchState, useBacklogSearch } from "./use-backlog-search.ts";
+import { type BacklogListActions, type BacklogListState, useBacklogList } from "./use-backlog-list";
+import { type BacklogSearchActions, type BacklogSearchState, useBacklogSearch } from "./use-backlog-search";
 import { useEffect, useState } from "react";
 
 export type BacklogState = {

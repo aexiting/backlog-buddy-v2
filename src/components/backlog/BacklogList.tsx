@@ -1,5 +1,5 @@
-import { BacklogItem } from "./BacklogItem.tsx";
-import type { BacklogListActions, BacklogListState } from "./use-backlog-list.ts";
+import { BacklogItem } from "./BacklogItem";
+import type { BacklogListActions, BacklogListState } from "./use-backlog-list";
 import { motion } from 'framer-motion';
 import { Flex } from "@aws-amplify/ui-react";
 
@@ -12,11 +12,12 @@ type BacklogListProps = {
 export const BacklogList = ({ state, actions }: BacklogListProps) => {
 
     return (
-        <Flex direction="column">
+        <Flex direction="column" data-testid="backlog-list">
             <Flex wrap="wrap" justifyContent="center" gap="xlarge">
                 {state.items.map(item => (
                     <motion.div
                         key={item.id}
+                        data-testid="item-list-wrapper"
                         whileHover={{ scale: 1.05 }}
                         onClick={() => actions.setActiveItem(item)}
                     >

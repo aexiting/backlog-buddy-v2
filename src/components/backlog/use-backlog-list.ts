@@ -1,7 +1,7 @@
 import {
     type BacklogItem,
-} from '../../../API.ts';
-import { onCreateBacklogItem, onDeleteBacklogItem, onUpdateBacklogItem } from "../../graphql/subscriptions.ts";
+} from '../../../API';
+import { onCreateBacklogItem, onDeleteBacklogItem, onUpdateBacklogItem } from "../../graphql/subscriptions";
 import { generateClient } from "aws-amplify/api";
 import { useEffect, useRef, useState } from "react";
 
